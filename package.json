@@ -1,26 +1,28 @@
-{ "author": "Paul Serby <paul@serby.net>"
-, "name": "pliers"
-, "description": "Build tool"
-, "version": "0.0.1"
-, "tags": []
-, "repository":
-  { "type": "git"
-  , "url": "git@github.com:serby/pliers"
-  }
-, "main": "lib/pliers.js"
-, "scripts":
-  { "test": "./node_modules/.bin/mocha -r should"
-  , "prepublish": "make qa && npm prune"
-  }
-, "engines":
-  { "node": ">=0.8"
-  }
-, "dependencies":
-  { "lodash": "~0.9"
-  , "async": "*"
-  }
-, "devDependencies":
-  { "mocha": "*"
-  , "should": "*"
+{
+  "author": "Paul Serby <paul@serby.net>",
+  "name": "pliers",
+  "description": "Build tool",
+  "version": "0.0.1",
+  "tags": [],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:serby/pliers"
+  },
+  "main": "lib/pliers.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha -r should",
+    "prepublish": "make qa && npm prune"
+  },
+  "engines": {
+    "node": ">=0.8"
+  },
+  "dependencies": {
+    "lodash": "~0.9",
+    "async": "*",
+    "glob": "~3.1.14"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
   }
 }

@@ -116,7 +116,28 @@ describe('#task', function() {
   })
 })
 
-describe('#exec', function() {
+describe('#exec()', function() {
+  var writable = new Stream()
+  writable.write = noop
+  writable.end = noop
+
+  var pliers = require('..')({ output:  writable })
+
+  it('should throw if no command provided', function() {
+    (function() {
+      pliers.exec()
+    }).should.throw('You must provide a command')
+  })
+
+  it('should return output', function(done) {
+    pliers.exec('node -v', function(error, output) {
+      assert.equal(output.trim().substring(1), process.versions.node)
+      done()
+    })
+  })
+})
+
+describe('#default()', function() {
   var writable = new Stream()
   writable.write = noop
   writable.end = noop
@@ -143,13 +164,13 @@ describe('#files()', function() {
   it('should throw if identifier is missing', function() {
     (function() {
       pliers.files()
-    }).should.throw('identifier is require to define a file set')
+    }).should.throw('Fileset id must not be empty and only contain [a-Z]')
   })
 
   it('should throw if file pattern is missing', function() {
     (function() {
       pliers.files('js')
-    }).should.throw('file pattern is required to define a file set')
+    }).should.throw('A file pattern is required to define a file set')
   })
 
   describe('#files.{id}', function() {
@@ -158,12 +179,12 @@ describe('#files()', function() {
     })
 
     it('should return an array of matching files', function() {
-      pliers.files('js', '../**/*.js')
+      pliers.files('js', __dirname + '/../*.js')
 
-      assert.equal(pliers.files.js,
-        [ '#js'
-        , 'test/pliers.test.js'].map(function(value) {
-          return join(__dirname, value)
+      assert.deepEqual(pliers.files.js,
+        [ 'pliers-cli.js'
+        , 'pliers.js'].map(function(value) {
+          return join(__dirname , '..', value)
         }))
     })
   })
