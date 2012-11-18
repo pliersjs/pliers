@@ -187,6 +187,18 @@ describe('#files()', function() {
           return join(__dirname , '..', value)
         }))
     })
+
+    it('should return an array of matching files from an array of patterns',
+      function() {
+
+      pliers.files('allJs', [__dirname + '/../*.js', __dirname + '/*.js'])
+
+      assert.deepEqual(pliers.files.allJs,
+        [ 'pliers-cli.js'
+        , 'pliers.js'].map(function(value) {
+          return join(__dirname , '..', value)
+        }).concat([join(__dirname , 'pliers.test.js')]))
+    })
   })
 
 })
