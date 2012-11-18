@@ -4,6 +4,7 @@
   "description": "Build tool",
   "version": "0.0.1",
   "tags": [],
+  "bin": { "pliers": "./pliers-cli.js" },
   "repository": {
     "type": "git",
     "url": "git@github.com:serby/pliers"
