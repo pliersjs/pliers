@@ -1,10 +1,12 @@
 {
   "author": "Paul Serby <paul@serby.net>",
   "name": "pliers",
-  "description": "Build tool",
+  "description": "A build tool supporting the building of sub projects",
   "version": "0.0.1",
-  "tags": [],
-  "bin": { "pliers": "./pliers-cli.js" },
+  "tags": ["build tool", "make", "compact"],
+  "bin": {
+    "pliers": "./pliers-cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:serby/pliers"
@@ -12,7 +14,7 @@
   "main": "lib/pliers.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha -r should",
-    "prepublish": "make qa && npm prune"
+    "prepublish": "pliers qa && npm prune"
   },
   "engines": {
     "node": ">=0.8"
@@ -20,7 +22,8 @@
   "dependencies": {
     "lodash": "~0.9",
     "async": "*",
-    "glob": "~3.1.14"
+    "glob": "~3.1",
+    "colors": "~0.6"
   },
   "devDependencies": {
     "mocha": "*",
