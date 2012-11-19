@@ -1,7 +1,7 @@
 {
   "author": "Paul Serby <paul@serby.net>",
   "name": "pliers",
-  "description": "A build tool supporting the building of sub projects",
+  "description": "A build tool",
   "version": "0.0.1",
   "tags": ["build tool", "make", "compact"],
   "bin": {
