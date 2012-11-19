@@ -13,8 +13,18 @@ config(pliers)
 
 var taskName = program.args[0]
 
+if (taskName === undefined) {
+
+  Object.keys(pliers.tasks).forEach(function(taskname) {
+    console.log(taskname)
+  })
+
+  process.exit()
+}
+
 if (!pliers.tasks[taskName]) {
-  return console.log('Task not found [' + taskName + ']')
+  console.log('Task not found \'' + taskName + '\'')
+  return process.exit(2)
 }
 
 pliers.tasks[program.args[0]]()
