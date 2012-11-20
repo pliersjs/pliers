@@ -6,7 +6,7 @@ describe('pliers-cli.js', function() {
   it('should list tasks when no args are passed', function(done) {
 
     exec('node pliers-cli.js', function(error, stdout) {
-      assert.equal('test\nlint\nqa\nwatch\n', stdout)
+      assert.equal('No default task\n', stdout)
       done()
     })
 

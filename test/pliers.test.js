@@ -78,6 +78,16 @@ describe('pliers.js', function() {
     pliers.tasks.withInfo.description.should.equal('This is the info')
   })
 
+  describe('#default', function() {
+    it('should be empty on init', function(done) {
+      var pliers = getPliers()
+      pliers('test', function() {
+        done()
+      })
+      pliers.default('test')
+      pliers.default()
+    })
+  })
 
   describe('#task', function() {
 
