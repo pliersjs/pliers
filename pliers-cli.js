@@ -37,6 +37,7 @@ if (program.list) {
 if (taskName === undefined) {
   if (pliers.hasDefault) {
     pliers.default()
+    return process.exit()
   } else {
     console.log('No default task')
     return process.exit(3)
