@@ -6,20 +6,41 @@ var program = require('commander')
 program
   .version(require('./package.json').version)
   .usage('[task] [options]')
-  .option('-r, --require <name>', 'require the given module')
+  .option('-l, --list', 'List all available tasks with descriptions')
+  .option('-b, --base', 'List just task names')
+  //.option('-j, --json', 'JSON logging')
   .parse(process.argv)
+
 
 config(pliers)
 
 var taskName = program.args[0]
 
-if (taskName === undefined) {
+if (program.bare) {
 
   Object.keys(pliers.tasks).forEach(function(taskname) {
     console.log(taskname)
   })
 
   process.exit()
+}
+
+if (program.list) {
+
+  Object.keys(pliers.tasks).forEach(function(taskname) {
+    console.log(taskname + (taskname.description ? (' - '+ taskname.description) : ''))
+  })
+
+  process.exit()
+}
+
+if (taskName === undefined) {
+  if (pliers.hasDefault) {
+    pliers.default()
+  } else {
+    console.log('No default task')
+    return process.exit(3)
+  }
 }
 
 if (!pliers.tasks[taskName]) {
