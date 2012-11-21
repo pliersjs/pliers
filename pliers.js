@@ -6,7 +6,7 @@ module.exports = function(pliers) {
     pliers.exec('./node_modules/.bin/mocha -r should -R spec', done)
   })
 
-  pliers('lint', { description: 'Run jshint all matched code' }, function(done) {
+  pliers('lint', { description: 'Run jshint all on project JavaScript' }, function(done) {
     pliers.exec('jshint lib test', done)
   })
 
