@@ -5,12 +5,11 @@ var program = require('commander')
 
 program
   .version(require('./package.json').version)
-  .usage('[task] [options]')
+  .usage('[options] [task]')
   .option('-l, --list', 'List all available tasks with descriptions')
-  .option('-b, --base', 'List just task names')
+  .option('-b, --bare', 'List task names only')
   //.option('-j, --json', 'JSON logging')
   .parse(process.argv)
-
 
 config(pliers)
 
@@ -28,7 +27,8 @@ if (program.bare) {
 if (program.list) {
 
   Object.keys(pliers.tasks).forEach(function(taskname) {
-    console.log(taskname + (taskname.description ? (' - '+ taskname.description) : ''))
+
+    console.log(taskname + (pliers.tasks[taskname].description ? (' - '+ pliers.tasks[taskname].description) : ''))
   })
 
   process.exit()
