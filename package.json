@@ -3,7 +3,11 @@
   "name": "pliers",
   "description": "A build tool",
   "version": "0.0.1",
-  "tags": ["build tool", "make", "compact"],
+  "tags": [
+    "build tool",
+    "make",
+    "compact"
+  ],
   "bin": {
     "pliers": "./pliers-cli.js"
   },
@@ -23,7 +27,8 @@
     "lodash": "~0.9",
     "async": "*",
     "glob": "~3.1",
-    "colors": "~0.6"
+    "colors": "~0.6",
+    "commander": "~1.1.1"
   },
   "devDependencies": {
     "mocha": "*",
