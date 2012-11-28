@@ -21,64 +21,70 @@ describe('pliers.js', function() {
       })
   }
 
-  var pliers = getPliers()
+  describe('pliers()', function() {
+    var pliers
 
-  pliers('fixture', noop)
+    before(function() {
+      pliers = getPliers()
+      pliers('fixture', noop)
+    })
 
-  it('should take a name and a function', function() {
-    (function() {
-      pliers('name', noop)
-    }).should.not.throw()
+    it('should take a name and a function', function() {
+      (function() {
+        pliers('name', noop)
+      }).should.not.throw()
+    })
+
+    it('should throw if name is missing', function() {
+      (function() {
+        pliers()
+      }).should.throw('Task name must not be empty and only contain [a-Z]')
+    })
+
+    it('should throw if name not made of [a-Z]', function() {
+      (function() {
+        pliers('New Task!')
+      }).should.throw('Task name must not be empty and only contain [a-Z]')
+    })
+
+    it('should throw if second argument is missing', function() {
+      (function() {
+        pliers('newName')
+      }).should.throw('At least one task name or a single function is require')
+    })
+
+    it('should throw if function before last argument', function() {
+      (function() {
+        pliers('newName', noop, 'name')
+      }).should.throw('function only permitted as the last argument')
+    })
+
+    it('should throw if task is already exists', function() {
+      (function() {
+        pliers('name', noop)
+      }).should.throw('Task \'name\' already exists')
+    })
+
+    it('should throw if second argument is not a defined task', function() {
+      (function() {
+        pliers('exampleSecond', 'test')
+      }).should.throw('No task exists \'test\'')
+    })
+
+    it('should throw if third argument is not a defined task', function() {
+      (function() {
+        pliers('exampleThrid', 'fixture', 'test')
+      }).should.throw('No task exists \'test\'')
+    })
+
+    it('should return description if provided', function() {
+      pliers('withInfo', { description: 'This is the info' }, noop)
+      pliers.tasks.withInfo.description.should.equal('This is the info')
+    })
+
   })
 
-  it('should throw if name is missing', function() {
-    (function() {
-      pliers()
-    }).should.throw('Task name must not be empty and only contain [a-Z]')
-  })
-
-  it('should throw if name not made of [a-Z]', function() {
-    (function() {
-      pliers('New Task!')
-    }).should.throw('Task name must not be empty and only contain [a-Z]')
-  })
-
-  it('should throw if second argument is missing', function() {
-    (function() {
-      pliers('newName')
-    }).should.throw('At least one task name or a single function is require')
-  })
-
-  it('should throw if function before last argument', function() {
-    (function() {
-      pliers('newName', noop, 'name')
-    }).should.throw('function only permitted as the last argument')
-  })
-
-  it('should throw if task is already exists', function() {
-    (function() {
-      pliers('name', noop)
-    }).should.throw('Task \'name\' already exists')
-  })
-
-  it('should throw if second argument is not a defined task', function() {
-    (function() {
-      pliers('exampleSecond', 'test')
-    }).should.throw('No task exists \'test\'')
-  })
-
-  it('should throw if third argument is not a defined task', function() {
-    (function() {
-      pliers('exampleThrid', 'fixture', 'test')
-    }).should.throw('No task exists \'test\'')
-  })
-
-  it('should return description if provided', function() {
-    pliers('withInfo', { description: 'This is the info' }, noop)
-    pliers.tasks.withInfo.description.should.equal('This is the info')
-  })
-
-  describe('#default', function() {
+  describe('default()', function() {
     it('should be empty on init', function(done) {
       var pliers = getPliers()
       pliers('test', function() {
@@ -89,7 +95,7 @@ describe('pliers.js', function() {
     })
   })
 
-  describe('#task', function() {
+  describe('task', function() {
 
     it('should be empty on init', function() {
       var pliers = getPliers()
@@ -99,16 +105,16 @@ describe('pliers.js', function() {
     it('should collect defined tasks', function() {
       var pliers = getPliers()
       pliers('test', noop)
-      assert.equal(typeof pliers.tasks.test, 'function')
+      assert.equal(typeof pliers.tasks.test, 'object')
     })
 
-    describe('#task.fn()', function() {
+    describe('task.fn()', function() {
       it('should run tasks', function(done) {
         var pliers = getPliers()
         pliers('test', function() {
           done()
         })
-        pliers.tasks.test()
+        pliers.run('test')
       })
 
       it('should run task then callback if provided', function(done) {
@@ -119,7 +125,7 @@ describe('pliers.js', function() {
           run = true
           cb()
         })
-        pliers.tasks.test(function() {
+        pliers.run('test', function() {
           assert.ok(run)
           done()
         })
@@ -138,7 +144,7 @@ describe('pliers.js', function() {
         pliers('b', task.bind(null, 'b'))
         pliers('c', task.bind(null, 'c'))
         pliers('test', 'c', 'b', 'a')
-        pliers.tasks.test(function() {
+        pliers.run('test', function() {
           assert.deepEqual(run, ['c', 'b', 'a'])
           done()
         })
@@ -146,7 +152,7 @@ describe('pliers.js', function() {
     })
   })
 
-  describe('#exec()', function() {
+  describe('exec()', function() {
 
     var pliers = getPliers()
 
@@ -164,7 +170,7 @@ describe('pliers.js', function() {
     })
   })
 
-  describe('#default()', function() {
+  describe('default()', function() {
     var pliers = getPliers()
 
     it('should throw if no command provided', function() {
@@ -181,30 +187,30 @@ describe('pliers.js', function() {
     })
   })
 
-  describe('#files()', function() {
+  describe('files()', function() {
     var pliers = getPliers()
 
     it('should throw if identifier is missing', function() {
       (function() {
-        pliers.files()
+        pliers.filesets()
       }).should.throw('Fileset id must not be empty and only contain [a-Z]')
     })
 
     it('should throw if file pattern is missing', function() {
       (function() {
-        pliers.files('js')
+        pliers.filesets('js')
       }).should.throw('A file pattern is required to define a file set')
     })
 
-    describe('#files.{id}', function() {
+    describe('files.{id}', function() {
       it('should equal undefined if identifier is unknown', function() {
-        assert.strictEqual(pliers.files.js, undefined)
+        assert.strictEqual(pliers.filesets.js, undefined)
       })
 
       it('should return an array of matching files', function() {
-        pliers.files('js', __dirname + '/../*.js')
+        pliers.filesets('js', __dirname + '/../*.js')
 
-        assert.deepEqual(pliers.files.js,
+        assert.deepEqual(pliers.filesets.js,
           [ 'pliers-cli.js'
           , 'pliers.js'].map(function(value) {
             return join(__dirname , '..', value)
@@ -214,8 +220,8 @@ describe('pliers.js', function() {
       it('should return an array of matching files from an array of patterns',
         function() {
 
-        pliers.files('allJs', [__dirname + '/../*.js', __dirname + '/*.js'])
-        pliers.files.allJs.should.eql(
+        pliers.filesets('allJs', [__dirname + '/../*.js', __dirname + '/*.js'])
+        pliers.filesets.allJs.should.eql(
           [ 'pliers-cli.js'
           , 'pliers.js'].map(function(value) {
             return join(__dirname , '..', value)
