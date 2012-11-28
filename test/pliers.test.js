@@ -168,6 +168,13 @@ describe('pliers.js', function() {
         done()
       })
     })
+
+    it('should be able to kill processes', function(done) {
+      var child = pliers.exec('node', function(error, output) {
+        done()
+      })
+      child.kill()
+    })
   })
 
   describe('default()', function() {
