@@ -170,7 +170,7 @@ describe('pliers.js', function() {
     })
 
     it('should be able to kill processes', function(done) {
-      var child = pliers.exec('node', function(error, output) {
+      var child = pliers.exec('node', function() {
         done()
       })
       child.kill()
@@ -194,7 +194,7 @@ describe('pliers.js', function() {
     })
   })
 
-  describe('files()', function() {
+  describe('filesets()', function() {
     var pliers = getPliers()
 
     it('should throw if identifier is missing', function() {
@@ -209,7 +209,7 @@ describe('pliers.js', function() {
       }).should.throw('A file pattern is required to define a file set')
     })
 
-    describe('files.{id}', function() {
+    describe('filesets.{id}', function() {
       it('should equal undefined if identifier is unknown', function() {
         assert.strictEqual(pliers.filesets.js, undefined)
       })
