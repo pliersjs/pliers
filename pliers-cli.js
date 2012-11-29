@@ -1,17 +1,33 @@
 #!/usr/bin/env node
 var program = require('commander')
   , pliers = require('./lib/pliers')()
-  , config = require('./pliers.js')
+  , join = require('path').join
+  , tasks
 
 program
   .version(require('./package.json').version)
   .usage('[options] [task]')
-  .option('-l, --list', 'List all available tasks with descriptions')
-  .option('-b, --bare', 'List task names only')
+  .option('-t, --tasks [file]'
+        , 'A file with user defined tasks (Default: ./pliers.js)')
+  .option('-l, --list'
+        , 'List all available tasks with descriptions')
+  .option('-b, --bare'
+        , 'List task names only')
   //.option('-j, --json', 'JSON logging')
   .parse(process.argv)
 
-config(pliers)
+if (!program.tasks) {
+  program.tasks = 'pliers.js'
+}
+
+try {
+  tasks = require(join(process.cwd(), program.tasks))
+} catch (e) {
+  console.log('Could not load `' + program.tasks + '`')
+  process.exit(1)
+}
+
+tasks(pliers)
 
 var taskName = program.args[0]
 
@@ -49,4 +65,4 @@ if (!pliers.tasks[taskName]) {
   return process.exit(2)
 }
 
-pliers.run(program.args[0])
+pliers.run(taskName)
