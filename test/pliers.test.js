@@ -236,6 +236,12 @@ describe('pliers.js', function() {
           [ join(__dirname , 'pliers-cli.test.js')
           , join(__dirname , 'pliers.test.js')]))
       })
+
+      it('should return the same thing on each access', function () {
+        pliers.filesets('everything', __dirname + '**')
+        assert.deepEqual(pliers.filesets.everything, pliers.filesets.everything)
+      })
+
     })
   })
 })
