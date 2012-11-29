@@ -65,4 +65,4 @@ if (!pliers.tasks[taskName]) {
   return process.exit(2)
 }
 
-
+pliers.run(taskName)

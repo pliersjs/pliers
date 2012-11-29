@@ -26,17 +26,36 @@ describe('pliers-cli.js', function() {
 
   it('should run a task', function(done) {
 
-    exec('node ../../pliers-cli.js fixture', { cwd: fixturesPath }, function(error, stdout) {
+    exec('node ../../pliers-cli.js greet', { cwd: fixturesPath }, function (error, stdout, stderr) {
       stderr.should.equal('')
-      stdout.should.match(/Running task: fixture/)
+      stdout.should.match(/Running task: greet/)
       done()
     })
 
   })
 
   it('should load tasks from a pliers.js in the cwd', function (done) {
-    exec('node ../../pliers-cli.js', { cwd: fixturesPath }, function (error, stdout) {
-      console.log(stdout)
+    exec('node ../../pliers-cli.js greet', { cwd: fixturesPath }, function (error, stdout, stderr) {
+      stderr.should.equal('')
+      stdout.should.match(/Running task: greet/)
+      stdout.should.match(/hello from pliers\.js/)
+      done()
+    })
+  })
+
+  it('should load tasks from a custom path', function (done) {
+    exec('node ../../pliers-cli.js -t tasks.js greet', { cwd: fixturesPath }, function (error, stdout, stderr) {
+      stderr.should.equal('')
+      stdout.should.match(/Running task: greet/)
+      stdout.should.match(/hello from tasks\.js/)
+      done()
+    })
+  })
+
+  it('should error with a non-existent task path', function (done) {
+    exec('node ../../pliers-cli.js -t tusks.js', { cwd: fixturesPath }, function (error, stdout) {
+      stdout.should.match(/Could not load `tusks.js`\n/)
+      error.code.should.equal(1)
       done()
     })
   })

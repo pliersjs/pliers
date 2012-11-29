@@ -18,9 +18,5 @@ module.exports = function(pliers) {
       pliers.tasks.lint)
   })
 
-  pliers('fixture', function() {
-    pliers.logger.info('fixture')
-  })
-
   //pliers.default('test')
 }
