@@ -24,7 +24,8 @@ describe('pliers-cli.js', function() {
 
   it('should run a task', function(done) {
 
-    exec('node ../pliers-cli.js fixture', { cwd: __dirname }, function(error, stdout) {
+    exec('node ../pliers-cli.js fixture', { cwd: __dirname }, function(error, stdout, stderr) {
+      stderr.should.equal('')
       stdout.should.match(/Running task: fixture/)
       done()
     })

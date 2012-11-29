@@ -49,4 +49,4 @@ if (!pliers.tasks[taskName]) {
   return process.exit(2)
 }
 
-pliers.run(program.args[0])()
+pliers.run(program.args[0])
