@@ -2,6 +2,7 @@ var noop = function() {}
   , assert = require('assert')
   , join = require('path').join
   , Stream = require('stream')
+  , fs = require('fs')
 
 describe('pliers.js', function() {
 
@@ -236,6 +237,28 @@ describe('pliers.js', function() {
           [ join(__dirname , 'pliers-cli.test.js')
           , join(__dirname , 'pliers.test.js')]))
       })
+
+      it('should return the same thing on each access', function () {
+        pliers.filesets('everything', __dirname + '**')
+        assert.deepEqual(pliers.filesets.everything, pliers.filesets.everything)
+      })
+
     })
+  })
+
+  describe('watch()', function() {
+    var pliers = getPliers()
+
+    it('should run a task when a file in a fileset changes', function (done) {
+
+      pliers.filesets('watched', join(__dirname, 'fixtures', '**'))
+      pliers.watch(pliers.filesets.watched, function () {
+        done()
+      })
+
+      fs.utimes(join(__dirname, 'fixtures', 'watched.txt'), new Date(), new Date())
+
+    })
+
   })
 })
