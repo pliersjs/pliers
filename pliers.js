@@ -1,6 +1,6 @@
 module.exports = function(pliers) {
 
-  pliers.files('js', ['*.js', 'test/*.js'])
+  pliers.filesets('js', ['*.js', 'test/*.js'])
 
   pliers('test', function(done) {
     pliers.exec('./node_modules/.bin/mocha -r should -R spec', done)
@@ -14,8 +14,12 @@ module.exports = function(pliers) {
 
   pliers('watch', function() {
     pliers.watch(
-      pliers.files.js,
+      pliers.filesets.js,
       pliers.tasks.lint)
+  })
+
+  pliers('fixture', function() {
+    pliers.logger.info('fixture')
   })
 
   //pliers.default('test')
