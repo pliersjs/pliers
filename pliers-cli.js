@@ -8,7 +8,7 @@ program
   .version(require('./package.json').version)
   .usage('[options] [task]')
   .option('-t, --tasks [file]'
-        , 'A file with user defined tasks (Default: ./pliers.js')
+        , 'A file with user defined tasks (Default: ./pliers.js)')
   .option('-l, --list'
         , 'List all available tasks with descriptions')
   .option('-b, --bare'
@@ -65,4 +65,4 @@ if (!pliers.tasks[taskName]) {
   return process.exit(2)
 }
 
-pliers.tasks[taskName]()
+
