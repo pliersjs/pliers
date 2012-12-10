@@ -3,14 +3,14 @@ var noop = function() {}
   , join = require('path').join
   , Stream = require('stream')
   , fs = require('fs')
+  , nullStream = new Stream()
+
+  nullStream.write = noop
+  nullStream.end = noop
 
 describe('pliers.js', function() {
 
   function getPliers() {
-
-    var writable = new Stream()
-    writable.write = noop
-    writable.end = noop
 
     return require('..')(
       { logger:
@@ -18,9 +18,26 @@ describe('pliers.js', function() {
         , info: noop
         , warn: noop
         , error: noop }
-      , output: writable
+      , output: nullStream
       })
   }
+
+  describe('initialize', function() {
+
+    it('should allow a custom cwd via options', function() {
+      var pliers = require('..')(
+        { logger:
+          { debug: noop
+          , info: noop
+          , warn: noop
+          , error: noop }
+        , cwd: join(__dirname, 'fixtures')
+        , output: nullStream
+        })
+      pliers.run('greet')
+
+    })
+  })
 
   describe('pliers()', function() {
     var pliers
