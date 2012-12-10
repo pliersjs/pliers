@@ -34,7 +34,9 @@ describe('pliers.js', function() {
         , cwd: join(__dirname, 'fixtures')
         , output: nullStream
         })
-      pliers.run('greet')
+
+      pliers.filesets('txt', '*.txt')
+      pliers.filesets.txt.should.eql(['watched.txt'])
 
     })
   })
