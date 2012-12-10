@@ -109,7 +109,7 @@ describe('pliers.js', function() {
       assert.equal(typeof pliers.tasks.test, 'object')
     })
 
-    describe('task.fn()', function() {
+    describe('task.run()', function() {
       it('should run tasks', function(done) {
         var pliers = getPliers()
         pliers('test', function() {
@@ -234,8 +234,12 @@ describe('pliers.js', function() {
           , 'pliers.js'].map(function(value) {
             return join(__dirname , '..', value)
           }).concat(
-          [ join(__dirname , 'pliers-cli.test.js')
-          , join(__dirname , 'pliers.test.js')]))
+            [ 'pliers-cli.test.js'
+            , 'pliers.load.test.js'
+            , 'pliers.test.js'].map(function(value) {
+              return join(__dirname , '../test/', value)
+            })
+          ))
       })
 
       it('should return the same thing on each access', function () {
