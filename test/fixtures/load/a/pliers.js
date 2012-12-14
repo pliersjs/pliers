@@ -6,8 +6,15 @@ module.exports = function(pliers) {
     pliers.logger.info('fixture')
   })
 
-  pliers('a', function() {
+  pliers('a', function(done) {
     pliers.logger.info('a')
+    done()
+  })
+
+  pliers('b', function(done) {
+    pliers.callOrder.push(2)
+    pliers.logger.info('b')
+    done()
   })
 
   // pliers.watch(
