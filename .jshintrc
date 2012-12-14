@@ -6,7 +6,7 @@
   "devel": true,
   "maxdepth": 4,
   "maxstatements": 25,
-  "maxcomplexity": 5,
+  "maxcomplexity": 6,
   "eqeqeq": true,
   "eqnull": true,
   "es5": true,
