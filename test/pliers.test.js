@@ -266,6 +266,20 @@ describe('pliers.js', function() {
         assert.deepEqual(pliers.filesets.everything, pliers.filesets.everything)
       })
 
+
+      it('should allow a 3rd parameter to define exclude patterns', function () {
+        pliers.filesets('nothing', __dirname + '**', __dirname + '**')
+        assert.deepEqual(pliers.filesets.nothing, [])
+      })
+
+      it('should allow exclude patterns to be an array', function () {
+        pliers.filesets('excludeArray', __dirname + '/*.js',
+          [__dirname + '/*.load.test.js', __dirname + '/*-cli.test.js'])
+
+        assert.deepEqual(pliers.filesets.excludeArray,
+          [join(__dirname , '../test/', 'pliers.test.js')])
+      })
+
     })
   })
 
