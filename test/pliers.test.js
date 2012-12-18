@@ -284,16 +284,40 @@ describe('pliers.js', function() {
   })
 
   describe('watch()', function() {
-    var pliers = getPliers()
 
-    it('should run a task when a file in a fileset changes', function (done) {
+    it('should call function and pass filename of changed file when a changes happens', function (done) {
+
+      var pliers = getPliers()
+        , watchedFile = join(__dirname, 'fixtures', 'watched.txt')
 
       pliers.filesets('watched', join(__dirname, 'fixtures', '**'))
-      pliers.watch(pliers.filesets.watched, function () {
+
+      pliers.watch(pliers.filesets.watched, function (fsWatcher, filename) {
+        filename.should.equal(watchedFile)
+        fsWatcher.close()
         done()
       })
 
-      fs.utimes(join(__dirname, 'fixtures', 'watched.txt'), new Date(), new Date())
+      setTimeout(function() {
+        fs.utimes(watchedFile, new Date(), new Date())
+      }, 200)
+
+    })
+
+    it('should run a task when a file in a fileset changes', function (done) {
+
+      var pliers = getPliers()
+        , watchedFile = join(__dirname, 'fixtures', 'watched.txt')
+
+      pliers.filesets('watched', join(__dirname, 'fixtures', '**'))
+      pliers.watch(pliers.filesets.watched, function (fsWatcher) {
+        fsWatcher.close()
+        done()
+      })
+
+      setTimeout(function() {
+        fs.utimes(watchedFile, new Date(), new Date())
+      }, 200)
 
     })
 
