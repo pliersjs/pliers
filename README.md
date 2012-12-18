@@ -1,10 +1,10 @@
-# pilers - A build tool
+# pliers - A build tool
 
-[![build status](https://secure.travis-ci.org/serby/pilers.png)](http://travis-ci.org/serby/pilers)
+[![build status](https://secure.travis-ci.org/serby/pliers.png)](http://travis-ci.org/serby/pliers)
 
 ## Installation
 
-      npm install -g pilers
+      npm install -g pliers
 
 ## Introduction
 
