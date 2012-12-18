@@ -290,9 +290,8 @@ describe('pliers.js', function() {
       var pliers = getPliers()
         , watchedFile = join(__dirname, 'fixtures', 'watched.txt')
 
-      pliers.filesets('watched', join(__dirname, 'fixtures', '**'))
-
-      pliers.watch(pliers.filesets.watched, function (fsWatcher, filename) {
+      pliers.filesets('watched', join(__dirname, 'fixtures', '*.txt'))
+      pliers.watch(pliers.filesets.watched, function(fsWatcher, filename) {
         filename.should.equal(watchedFile)
         fsWatcher.close()
         done()
@@ -309,7 +308,7 @@ describe('pliers.js', function() {
       var pliers = getPliers()
         , watchedFile = join(__dirname, 'fixtures', 'watched.txt')
 
-      pliers.filesets('watched', join(__dirname, 'fixtures', '**'))
+      pliers.filesets('watched', join(__dirname, 'fixtures', '*.txt'))
       pliers.watch(pliers.filesets.watched, function (fsWatcher) {
         fsWatcher.close()
         done()
