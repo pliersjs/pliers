@@ -23,7 +23,7 @@ if (!program.tasks) {
 try {
   tasks = require(join(process.cwd(), program.tasks))
 } catch (e) {
-  console.log('Could not load `' + program.tasks + '`')
+  console.log('Could not load `' + program.tasks + '`', e.message)
   process.exit(1)
 }
 
