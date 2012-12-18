@@ -108,12 +108,30 @@ pliers('runner', function(done) {
 
 TBC
 
-#### filesets()
+#### filesets(id, includePatterns[, excludePatterns])
 
-TBC
+Create a fileset that can be used to perform tasks on. The following fileset example would return all `.js` files in the current directory, excluding those that end in `.test.js`.
+
+```js
+
+pliers.filesets('js', __dirname + '/*.js', __dirname + '/*.test.js')
+
+```
+
+`includePatterns` & `excludePatterns` can be either a string or an Array if you need multiple glob conditions.
+
+Filesets are calculated using the [`node-glob`](https://github.com/isaacs/node-glob) module. The filesets are first generated when they are accessed, this is done using the `id` property as follows:
+
+```js
+
+console.log(pliers.filesets.js) // Will output the fileset with the id 'js'
+
+```
+
 ## Credits
 * [Paul Serby](https://github.com/serby/) follow me on twitter [@serby](http://twitter.com/serby)
 * [Ben Gourley](https://github.com/bengourley/)
+* [Dom Harrington](https://github.com/domharrington/)
 * Built for use at [Clock Limited](http://www.clock.co.uk)
 
 ## Licence
