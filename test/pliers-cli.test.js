@@ -60,4 +60,13 @@ describe('pliers-cli.js', function() {
     })
   })
 
+  it('should not mask a load-time error as non-existent file', function (done) {
+    exec('node ../../pliers-cli.js -t error.js', { cwd: fixturesPath }, function (error, stdout, stderr) {
+      stdout.should.not.match(/Could not load `error.js`\n/)
+      stderr.should.match(/uh oh\n/)
+      error.code.should.equal(1)
+      done()
+    })
+  })
+
 })
