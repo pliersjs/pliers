@@ -16,9 +16,9 @@ describe('pliers-cli.js', function() {
 
   it('should error with unknown task', function(done) {
 
-    exec('node ../../pliers-cli.js error', { cwd: fixturesPath }, function(error, stdout) {
-      error.code.should.equal(2)
-      stdout.should.equal('Task not found \'error\'\n')
+    exec('node ../../pliers-cli.js error', { cwd: fixturesPath }, function(error, stdout, stderr) {
+      error.code.should.equal(1)
+      stderr.should.match(/.*No task defined.*/)
       done()
     })
 
@@ -54,7 +54,7 @@ describe('pliers-cli.js', function() {
 
   it('should error with a non-existent task path', function (done) {
     exec('node ../../pliers-cli.js -t tusks.js', { cwd: fixturesPath }, function (error, stdout) {
-      stdout.should.match(/Could not load `tusks.js`\n/)
+      stdout.should.match(/Could not load `tusks.js`/)
       error.code.should.equal(1)
       done()
     })
