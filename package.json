@@ -18,7 +18,7 @@
   "main": "lib/pliers.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha -r should",
-    "prepublish": "pliers qa && npm prune"
+    "prepublish": "node ./pliers-cli.js qa && npm prune"
   },
   "engines": {
     "node": ">=0.8"
