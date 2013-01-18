@@ -60,9 +60,9 @@ if (taskName === undefined) {
   }
 }
 
-if (!pliers.tasks[taskName]) {
-  console.log('Task not found \'' + taskName + '\'')
-  return process.exit(2)
-}
+// if (!pliers.tasks[taskName]) {
+//   console.log('Task not found \'' + taskName + '\'')
+//   return process.exit(2)
+// }
 
 pliers.run(taskName)
