@@ -23,8 +23,19 @@ if (!program.tasks) {
 try {
   tasks = require(join(process.cwd(), program.tasks))
 } catch (e) {
-  console.log('Could not load `' + program.tasks + '`', e.message)
-  process.exit(1)
+
+  // Detect if the error caught is the task file
+  // failing to load, or a load-time error. Print
+  // error message or rethrow accordingly.
+
+  var re = new RegExp(program.tasks)
+  if (e.code === 'MODULE_NOT_FOUND' && re.test(e.message)) {
+    console.log('Could not load `' + program.tasks + '`')
+    process.exit(1)
+  } else {
+    throw e
+  }
+
 }
 
 tasks(pliers)
