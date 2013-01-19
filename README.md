@@ -42,9 +42,9 @@ Running pliers will look for a pliers.js in the current working directory.
 ### Tasks
 
 ```js
-module.exports = function(pliers) {
+module.exports = function (pliers) {
 
-  pliers('hello', function(done) {
+  pliers('hello', function (done) {
     pliers.logger.info('Hello world')
     done()
   })
@@ -61,11 +61,11 @@ To run the hello task from the command line:
 
 ```js
 
-pliers('test', function(done) {
+pliers('test', function (done) {
   pliers.exec('./node_modules/.bin/mocha -r should', done)
 })
 
-pliers('lint', { description: 'Run jshint all on project JavaScript' }, function(done) {
+pliers('lint', { description: 'Run jshint all on project JavaScript' }, function (done) {
   pliers.exec('jshint lib test', done)
 })
 
@@ -86,7 +86,7 @@ Executes command using require('child_process').exec
 
 ```js
 
-pliers('list', function(done) {
+pliers('list', function (done) {
   pliers.exec('ls', done)
 })
 
@@ -98,7 +98,7 @@ Run another pliers task.
 
 ```js
 
-pliers('runner', function(done) {
+pliers('runner', function (done) {
   pliers.run('list')
 })
 

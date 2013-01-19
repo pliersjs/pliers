@@ -2,11 +2,11 @@ var exec = require('child_process').exec
   , join = require('path').join
   , fixturesPath = join(__dirname, 'fixtures')
 
-describe('pliers-cli.js', function() {
+describe('pliers-cli.js', function () {
 
-  it('should report error when no default task defined', function(done) {
+  it('should report error when no default task defined', function (done) {
 
-    exec('node ../../pliers-cli.js', { cwd: fixturesPath }, function(error, stdout, stderr) {
+    exec('node ../../pliers-cli.js', { cwd: fixturesPath }, function (error, stdout, stderr) {
       stderr.should.equal('')
       stdout.should.equal('No default task\n')
       done()
@@ -14,9 +14,9 @@ describe('pliers-cli.js', function() {
 
   })
 
-  it('should error with unknown task', function(done) {
+  it('should error with unknown task', function (done) {
 
-    exec('node ../../pliers-cli.js error', { cwd: fixturesPath }, function(error, stdout, stderr) {
+    exec('node ../../pliers-cli.js error', { cwd: fixturesPath }, function (error, stdout, stderr) {
       error.code.should.equal(1)
       stderr.should.match(/.*No task defined.*/)
       done()
@@ -24,7 +24,7 @@ describe('pliers-cli.js', function() {
 
   })
 
-  it('should run a task', function(done) {
+  it('should run a task', function (done) {
 
     exec('node ../../pliers-cli.js greet', { cwd: fixturesPath }, function (error, stdout, stderr) {
       stderr.should.equal('')

@@ -44,7 +44,7 @@ var taskName = program.args[0]
 
 if (program.bare) {
 
-  Object.keys(pliers.tasks).forEach(function(taskname) {
+  Object.keys(pliers.tasks).forEach(function (taskname) {
     console.log(taskname)
   })
 
@@ -53,7 +53,7 @@ if (program.bare) {
 
 if (program.list) {
 
-  Object.keys(pliers.tasks).forEach(function(taskname) {
+  Object.keys(pliers.tasks).forEach(function (taskname) {
 
     console.log(taskname + (pliers.tasks[taskname].description ? (' - '+ pliers.tasks[taskname].description) : ''))
   })

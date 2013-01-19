@@ -1,9 +1,9 @@
-var noop = function() {}
+var noop = function () {}
   , join = require('path').join
   , Stream = require('stream')
   , should = require('should')
 
-describe('pliers.js', function() {
+describe('pliers.js', function () {
 
   function getPliers() {
 
@@ -22,14 +22,14 @@ describe('pliers.js', function() {
       })
   }
 
-  describe('load()', function() {
+  describe('load()', function () {
 
-    it('should load valid sub pliers', function() {
+    it('should load valid sub pliers', function () {
       var pliers = getPliers()
       pliers.load(join(__dirname, 'fixtures/load/a'))
     })
 
-    it('should throw if no sub pliers is found', function(done) {
+    it('should throw if no sub pliers is found', function (done) {
       var pliers = getPliers()
 
       try {
@@ -40,43 +40,43 @@ describe('pliers.js', function() {
 
     })
 
-    it('should run root level tasks', function(done) {
+    it('should run root level tasks', function (done) {
       var pliers = getPliers()
 
-      pliers('test', function(cb) {
+      pliers('test', function (cb) {
         cb()
       })
 
       pliers.load(join(__dirname, 'fixtures/load/a'))
 
-      pliers.run('test', function(error) {
+      pliers.run('test', function (error) {
         should.equal(error, null)
         done()
       })
     })
 
-    it('should run sub pliers tasks', function(done) {
+    it('should run sub pliers tasks', function (done) {
       var pliers = getPliers()
 
-      pliers('test', function(cb) {
+      pliers('test', function (cb) {
         cb()
       })
 
       pliers.load(join(__dirname, 'fixtures/load/a'))
 
-      pliers.run('a', function(error) {
+      pliers.run('a', function (error) {
         should.equal(error, null)
         done()
       })
     })
 
-   it('should first run parent task then all sub tasks', function(done) {
+    it('should first run parent task then all sub tasks', function (done) {
 
       var pliers = getPliers()
         , subPliers
         , callOrder = []
 
-      pliers('b', function(cb) {
+      pliers('b', function (cb) {
         callOrder.push(1)
         cb()
       })
@@ -84,7 +84,7 @@ describe('pliers.js', function() {
       subPliers = pliers.load(join(__dirname, 'fixtures/load/a'))
       subPliers.callOrder = callOrder
 
-      subPliers = pliers.run('b', function() {
+      subPliers = pliers.run('b', function () {
         subPliers.callOrder.should.eql([1, 2])
         done()
       })
