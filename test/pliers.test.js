@@ -52,49 +52,49 @@ describe('pliers.js', function () {
     it('should take a name and a function', function () {
       (function () {
         pliers('name', noop)
-      }).should.not.throw()
+      }).should.not.throwError()
     })
 
     it('should throw if name is missing', function () {
       (function () {
         pliers()
-      }).should.throw('Task name must not be empty and only contain [a-Z]')
+      }).should.throwError('Task name must not be empty and only contain [a-Z]')
     })
 
     it('should throw if name not made of [a-Z]', function () {
       (function () {
         pliers('New Task!')
-      }).should.throw('Task name must not be empty and only contain [a-Z]')
+      }).should.throwError('Task name must not be empty and only contain [a-Z]')
     })
 
     it('should throw if second argument is missing', function () {
       (function () {
         pliers('newName')
-      }).should.throw('At least one task name or a single function is require')
+      }).should.throwError('At least one task name or a single function is require')
     })
 
     it('should throw if function before last argument', function () {
       (function () {
         pliers('newName', noop, 'name')
-      }).should.throw('function only permitted as the last argument')
+      }).should.throwError('function only permitted as the last argument')
     })
 
     it('should throw if task is already exists', function () {
       (function () {
         pliers('name', noop)
-      }).should.throw('Task \'name\' already exists')
+      }).should.throwError('Task \'name\' already exists')
     })
 
     it('should throw if second argument is not a defined task', function () {
       (function () {
         pliers('exampleSecond', 'test')
-      }).should.throw('No task exists \'test\'')
+      }).should.throwError('No task exists \'test\'')
     })
 
     it('should throw if third argument is not a defined task', function () {
       (function () {
         pliers('exampleThrid', 'fixture', 'test')
-      }).should.throw('No task exists \'test\'')
+      }).should.throwError('No task exists \'test\'')
     })
 
     it('should return description if provided', function () {
@@ -104,14 +104,14 @@ describe('pliers.js', function () {
 
   })
 
-  describe('default()', function () {
+  describe('defaultTask()', function () {
     it('should be empty on init', function (done) {
       var pliers = getPliers()
       pliers('test', function () {
         done()
       })
-      pliers.default('test')
-      pliers.default()
+      pliers.defaultTask('test')
+      pliers.defaultTask()
     })
   })
 
@@ -179,7 +179,7 @@ describe('pliers.js', function () {
     it('should throw if no command provided', function () {
       (function () {
         pliers.exec()
-      }).should.throw('You must provide a command')
+      }).should.throwError('You must provide a command')
     })
 
     it('should return output', function (done) {
@@ -197,13 +197,13 @@ describe('pliers.js', function () {
     })
   })
 
-  describe('default()', function () {
+  describe('defaultTask()', function () {
     var pliers = getPliers()
 
     it('should throw if no command provided', function () {
       (function () {
         pliers.exec()
-      }).should.throw('You must provide a command')
+      }).should.throwError('You must provide a command')
     })
 
     it('should return output', function (done) {
@@ -220,13 +220,13 @@ describe('pliers.js', function () {
     it('should throw if identifier is missing', function () {
       (function () {
         pliers.filesets()
-      }).should.throw('Fileset id must not be empty and only contain [a-Z]')
+      }).should.throwError('Fileset id must not be empty and only contain [a-Z]')
     })
 
     it('should throw if file pattern is missing', function () {
       (function () {
         pliers.filesets('js')
-      }).should.throw('A file pattern is required to define a file set')
+      }).should.throwError('A file pattern is required to define a file set')
     })
 
     describe('filesets.{id}', function () {
