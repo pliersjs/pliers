@@ -7,7 +7,7 @@
 , "devel": true
 , "eqeqeq": true
 , "eqnull": true
-, "es5": true
+, "es5": false
 , "evil": false
 , "immed": false
 , "indent": 2

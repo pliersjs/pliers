@@ -12,7 +12,7 @@ module.exports = function (pliers) {
 
   pliers('qa', 'test', 'lint')
 
-  pliers('watch', function () {
+  pliers('watch', function() {
     pliers.watch(
       pliers.filesets.js,
       pliers.tasks.lint)
