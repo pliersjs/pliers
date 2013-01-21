@@ -63,17 +63,12 @@ if (program.list) {
 
 if (taskName === undefined) {
   if (pliers.hasDefault) {
-    pliers.default()
+    pliers.defaultTask()
     return process.exit()
   } else {
     console.log('No default task')
     return process.exit(3)
   }
 }
-
-// if (!pliers.tasks[taskName]) {
-//   console.log('Task not found \'' + taskName + '\'')
-//   return process.exit(2)
-// }
 
 pliers.run(taskName)
