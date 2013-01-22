@@ -51,15 +51,19 @@ if (program.bare) {
   process.exit()
 }
 
-if (program.list) {
+function list() {
+  if (program.list) {
 
-  Object.keys(pliers.tasks).forEach(function (taskname) {
+    Object.keys(pliers.tasks).forEach(function (taskname) {
 
-    console.log(taskname + (pliers.tasks[taskname].description ? (' - '+ pliers.tasks[taskname].description) : ''))
-  })
+      console.log(taskname + (pliers.tasks[taskname].description ? (' - '+ pliers.tasks[taskname].description) : ''))
+    })
 
-  process.exit()
+    process.exit()
+  }
 }
+
+list()
 
 if (taskName === undefined) {
   if (pliers.hasDefault) {
@@ -67,6 +71,7 @@ if (taskName === undefined) {
     return process.exit()
   } else {
     console.log('No default task')
+    list()
     return process.exit(3)
   }
 }
