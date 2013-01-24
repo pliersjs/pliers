@@ -43,27 +43,17 @@ tasks(pliers)
 var taskName = program.args[0]
 
 if (program.bare) {
-
-  Object.keys(pliers.tasks).forEach(function (taskname) {
-    console.log(taskname)
+  pliers.getAllTaskNames().forEach(function (taskName) {
+    console.log(taskName)
   })
 
   process.exit()
 }
 
-function list() {
-  if (program.list) {
-
-    Object.keys(pliers.tasks).forEach(function (taskname) {
-
-      console.log(taskname + (pliers.tasks[taskname].description ? (' - '+ pliers.tasks[taskname].description) : ''))
-    })
-
-    process.exit()
-  }
+if (program.list) {
+  pliers.list()
+  process.exit()
 }
-
-list()
 
 if (taskName === undefined) {
   if (pliers.hasDefault) {
@@ -71,7 +61,6 @@ if (taskName === undefined) {
     return process.exit()
   } else {
     console.log('No default task')
-    list()
     return process.exit(3)
   }
 }

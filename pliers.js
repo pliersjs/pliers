@@ -1,4 +1,4 @@
-module.exports = function (pliers) {
+  module.exports = function (pliers) {
 
   pliers.filesets('js', ['*.js', 'test/*.js'])
 
