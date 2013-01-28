@@ -70,6 +70,15 @@ describe('pliers.js', function () {
       })
     })
 
+    it('should allow sub task dependencies that do not exist yet', function () {
+      var pliers = getPliers()
+
+      pliers('depends', 'test', function (done) {
+        done()
+      })
+
+    })
+
     it('should first run parent task then all sub tasks', function (done) {
 
       var pliers = getPliers()

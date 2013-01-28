@@ -18,7 +18,7 @@ describe('pliers-cli.js', function () {
 
     exec('node ../../pliers-cli.js error', { cwd: fixturesPath }, function (error, stdout, stderr) {
       error.code.should.equal(1)
-      stderr.should.match(/.*No task defined.*/)
+      stderr.should.match(/.*No task exists.*/)
       done()
     })
 

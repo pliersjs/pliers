@@ -85,16 +85,16 @@ describe('pliers.js', function () {
       }).should.throwError('Task \'name\' already exists')
     })
 
-    it('should throw if second argument is not a defined task', function () {
+    it('should not throw if second argument is not a defined task', function () {
       (function () {
         pliers('exampleSecond', 'test')
-      }).should.throwError('No task exists \'test\'')
+      }).should.not.throwError('No task exists \'test\'')
     })
 
-    it('should throw if third argument is not a defined task', function () {
+    it('should not throw if third argument is not a defined task', function () {
       (function () {
         pliers('exampleThrid', 'fixture', 'test')
-      }).should.throwError('No task exists \'test\'')
+      }).should.not.throwError('No task exists \'test\'')
     })
 
     it('should return description if provided', function () {
@@ -129,6 +129,7 @@ describe('pliers.js', function () {
     })
 
     describe('task.run()', function () {
+
       it('should run tasks', function (done) {
         var pliers = getPliers()
         pliers('test', function () {
@@ -149,6 +150,31 @@ describe('pliers.js', function () {
           assert.ok(run)
           done()
         })
+      })
+
+      it('should throw if any of the dependencies task don\'t exisit before '
+        + 'running task code', function (done) {
+
+        var pliers = getPliers()
+          , result = []
+
+        pliers('test', 'a', 'b', function () {
+          result.push(1)
+          done()
+        })
+
+        pliers('a', function () {
+          result.push(2)
+        })
+
+        try {
+          pliers.run('test')
+        } catch (e) {
+          e.message.should.equal('No task exists \'b\'')
+          result.should.eql([])
+          done()
+        }
+
       })
 
       it('should run tasks all dependent tasks in order', function (done) {
