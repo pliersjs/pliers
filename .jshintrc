@@ -17,7 +17,7 @@
 , "laxcomma": true
 , "maxcomplexity": 6
 , "maxdepth": 4
-, "maxstatements": 30
+, "maxstatements": 35
 , "newcap": true
 , "node": true
 , "noempty": false
