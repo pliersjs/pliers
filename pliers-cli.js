@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 var program = require('commander')
-  , pliers = require('./lib/pliers')()
   , join = require('path').join
   , tasks
+  , pliers = require('./lib/pliers')
 
 program
   .version(require('./package.json').version)
@@ -13,12 +13,16 @@ program
         , 'List all available tasks with descriptions')
   .option('-b, --bare'
         , 'List task names only')
+  .option('-L, --logLevel [trace|debug|info|warn|error|fatal]'
+        , 'Set the level of logs to output')
   //.option('-j, --json', 'JSON logging')
   .parse(process.argv)
 
 if (!program.tasks) {
   program.tasks = 'pliers.js'
 }
+
+pliers = pliers({ logLevel: program.logLevel })
 
 try {
   tasks = require(join(process.cwd(), program.tasks))
