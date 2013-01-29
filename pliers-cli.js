@@ -13,6 +13,8 @@ program
         , 'List all available tasks with descriptions')
   .option('-b, --bare'
         , 'List task names only')
+  .option('-a, --all'
+        , 'Run all named tasks with in the current tree')
   //.option('-j, --json', 'JSON logging')
   .parse(process.argv)
 
@@ -65,4 +67,8 @@ if (taskName === undefined) {
   }
 }
 
-pliers.run(taskName)
+if (program.all) {
+  pliers.runAll(taskName)
+} else {
+  pliers.run(taskName)
+}

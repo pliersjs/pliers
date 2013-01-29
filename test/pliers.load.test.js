@@ -39,7 +39,9 @@ describe('pliers.js', function () {
       }
 
     })
+  })
 
+  describe('run()', function () {
     it('should run root level tasks', function (done) {
       var pliers = getPliers()
 
@@ -55,7 +57,7 @@ describe('pliers.js', function () {
       })
     })
 
-    it('should run sub pliers tasks', function (done) {
+    it('should only run() tasks in the parent pliers', function () {
       var pliers = getPliers()
 
       pliers('test', function (cb) {
@@ -64,22 +66,17 @@ describe('pliers.js', function () {
 
       pliers.load(join(__dirname, 'fixtures/load/a'))
 
-      pliers.run('a', function (error) {
-        should.equal(error, null)
-        done()
-      })
+      try {
+        pliers.run('a')
+      } catch (e) {
+        e.message.should.equal('No task exists \'a\'')
+      }
     })
+  })
 
-    it('should allow sub task dependencies that do not exist yet', function () {
-      var pliers = getPliers()
+  describe('runAll()', function () {
 
-      pliers('depends', 'test', function (done) {
-        done()
-      })
-
-    })
-
-    it('should first run parent task then all sub tasks', function (done) {
+    it('should first run all sub tasks then parent task', function (done) {
 
       var pliers = getPliers()
         , subPliers
@@ -93,12 +90,10 @@ describe('pliers.js', function () {
       subPliers = pliers.load(join(__dirname, 'fixtures/load/a'))
       subPliers.callOrder = callOrder
 
-      subPliers = pliers.run('b', function () {
-        subPliers.callOrder.should.eql([1, 2])
+      subPliers = pliers.runAll('b', function () {
+        subPliers.callOrder.should.eql([2, 1])
         done()
       })
-
     })
-
   })
 })

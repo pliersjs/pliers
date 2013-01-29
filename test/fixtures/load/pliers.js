@@ -1,5 +1,6 @@
 module.exports = function (pliers) {
 
+  pliers.load(__dirname + '/a')
   pliers.filesets('js', ['*.js'])
 
   pliers('test', function () {

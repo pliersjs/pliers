@@ -152,7 +152,7 @@ describe('pliers.js', function () {
         })
       })
 
-      it('should throw if any of the dependencies task don\'t exisit before '
+      it('should throw if any of the dependencies task don\'t exist before '
         + 'running task code', function (done) {
 
         var pliers = getPliers()
@@ -163,8 +163,9 @@ describe('pliers.js', function () {
           done()
         })
 
-        pliers('a', function () {
+        pliers('a', function (done) {
           result.push(2)
+          done()
         })
 
         try {
@@ -194,6 +195,36 @@ describe('pliers.js', function () {
           assert.deepEqual(run, ['c', 'b', 'a'])
           done()
         })
+      })
+
+      it('should not run dependent tasks more than once', function (done) {
+        var run = []
+          , pliers = getPliers()
+
+        function task(id, cb) {
+          run.push(id)
+          cb()
+        }
+
+        pliers('a', task.bind(null, 'a'))
+        pliers('b', task.bind(null, 'b'))
+        pliers('c', 'a', task.bind(null, 'c'))
+        pliers('test', 'c', 'b', 'a')
+        pliers.run('test', function () {
+          assert.deepEqual(run, ['a', 'c', 'b'])
+          done()
+        })
+      })
+
+      it('should error if task doesn\'t exist', function () {
+        var pliers = getPliers()
+
+        try {
+          pliers.run('test')
+        } catch (e) {
+          assert.equal(e.message, 'No task exists \'test\'')
+        }
+
       })
     })
   })
@@ -346,5 +377,35 @@ describe('pliers.js', function () {
 
     })
 
+  })
+
+  describe('getAllTaskNames()', function () {
+    it('should return list of defined tasks that changes as more are added', function () {
+      var pliers = getPliers()
+      pliers.getAllTaskNames().should.eql([])
+      pliers('a', function (done) {
+        done()
+      })
+      pliers.getAllTaskNames().should.eql(['a'])
+      pliers('b', function (done) {
+        done()
+      })
+      pliers.getAllTaskNames().should.eql(['a', 'b'])
+    })
+  })
+
+  describe('list()', function () {
+    it('should output a list of defined tasks that changes as more are added', function () {
+      var pliers = getPliers()
+      pliers.getAllTaskNames().should.eql([])
+      pliers('a', function (done) {
+        done()
+      })
+      pliers.getAllTaskNames().should.eql(['a'])
+      pliers('b', function (done) {
+        done()
+      })
+      pliers.getAllTaskNames().should.eql(['a', 'b'])
+    })
   })
 })
