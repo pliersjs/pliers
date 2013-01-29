@@ -2,7 +2,7 @@
   "author": "Paul Serby <paul@serby.net>",
   "name": "pliers",
   "description": "A build tool",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "tags": [
     "build tool",
     "make",
