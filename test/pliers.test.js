@@ -11,7 +11,7 @@ nullStream.end = noop
 
 describe('pliers.js', function () {
 
-  function getPliers() {
+  function getPliers(outputStream) {
 
     return require('..')(
       { logger:
@@ -19,7 +19,7 @@ describe('pliers.js', function () {
         , info: noop
         , warn: noop
         , error: noop }
-      , output: nullStream
+      , output: outputStream ? undefined : nullStream
       })
   }
 
@@ -232,7 +232,7 @@ describe('pliers.js', function () {
 
   describe('exec()', function () {
 
-    var pliers = getPliers()
+    var pliers = getPliers(true)
 
     it('should throw if no command provided', function () {
       (function () {
