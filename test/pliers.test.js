@@ -4,6 +4,7 @@ var noop = function () {}
   , Stream = require('stream')
   , fs = require('fs')
   , nullStream = new Stream()
+  , exec = require('child_process').exec
 
 nullStream.write = noop
 nullStream.end = noop
@@ -246,7 +247,13 @@ describe('pliers.js', function () {
     //   })
     // })
 
-    it('should inherit the parent process\' stdio')
+    it('should inherit the parent process\' stdio', function (done) {
+      exec('node test/fixtures/exec', function (err, stdout, stderr) {
+        stdout.trim().substring(1).should.equal(process.versions.node)
+        stderr.should.equal('')
+        done()
+      })
+    })
 
     it('should be able to kill processes', function (done) {
       var child = pliers.exec('node', function () {
