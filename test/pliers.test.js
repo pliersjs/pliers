@@ -239,12 +239,14 @@ describe('pliers.js', function () {
       }).should.throwError('You must provide a command')
     })
 
-    it('should return output', function (done) {
-      pliers.exec('node -v', function (error, output) {
-        assert.equal(output.trim().substring(1), process.versions.node)
-        done()
-      })
-    })
+    // it('should return output', function (done) {
+    //   pliers.exec('node -v', function (error, output) {
+    //     assert.equal(output.trim().substring(1), process.versions.node)
+    //     done()
+    //   })
+    // })
+
+    it('should inherit the parent process\' stdio')
 
     it('should be able to kill processes', function (done) {
       var child = pliers.exec('node', function () {
@@ -255,20 +257,6 @@ describe('pliers.js', function () {
   })
 
   describe('defaultTask()', function () {
-    var pliers = getPliers()
-
-    it('should throw if no command provided', function () {
-      (function () {
-        pliers.exec()
-      }).should.throwError('You must provide a command')
-    })
-
-    it('should return output', function (done) {
-      pliers.exec('node -v', function (error, output) {
-        assert.equal(output.trim().substring(1), process.versions.node)
-        done()
-      })
-    })
   })
 
   describe('filesets()', function () {
