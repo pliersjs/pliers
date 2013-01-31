@@ -4,13 +4,14 @@ var noop = function () {}
   , Stream = require('stream')
   , fs = require('fs')
   , nullStream = new Stream()
+  , exec = require('child_process').exec
 
 nullStream.write = noop
 nullStream.end = noop
 
 describe('pliers.js', function () {
 
-  function getPliers() {
+  function getPliers(outputStream) {
 
     return require('..')(
       { logger:
@@ -18,7 +19,7 @@ describe('pliers.js', function () {
         , info: noop
         , warn: noop
         , error: noop }
-      , output: nullStream
+      , output: outputStream ? undefined : nullStream
       })
   }
 
@@ -231,7 +232,7 @@ describe('pliers.js', function () {
 
   describe('exec()', function () {
 
-    var pliers = getPliers()
+    var pliers = getPliers(true)
 
     it('should throw if no command provided', function () {
       (function () {
@@ -239,9 +240,17 @@ describe('pliers.js', function () {
       }).should.throwError('You must provide a command')
     })
 
-    it('should return output', function (done) {
-      pliers.exec('node -v', function (error, output) {
-        assert.equal(output.trim().substring(1), process.versions.node)
+    // it('should return output', function (done) {
+    //   pliers.exec('node -v', function (error, output) {
+    //     assert.equal(output.trim().substring(1), process.versions.node)
+    //     done()
+    //   })
+    // })
+
+    it('should inherit the parent process\' stdio', function (done) {
+      exec('node test/fixtures/exec', function (err, stdout, stderr) {
+        stdout.trim().substring(1).should.equal(process.versions.node)
+        stderr.should.equal('')
         done()
       })
     })
@@ -255,20 +264,6 @@ describe('pliers.js', function () {
   })
 
   describe('defaultTask()', function () {
-    var pliers = getPliers()
-
-    it('should throw if no command provided', function () {
-      (function () {
-        pliers.exec()
-      }).should.throwError('You must provide a command')
-    })
-
-    it('should return output', function (done) {
-      pliers.exec('node -v', function (error, output) {
-        assert.equal(output.trim().substring(1), process.versions.node)
-        done()
-      })
-    })
   })
 
   describe('filesets()', function () {
