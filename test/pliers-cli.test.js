@@ -1,7 +1,6 @@
 var exec = require('child_process').exec
   , join = require('path').join
   , fixturesPath = join(__dirname, 'fixtures')
-  , fs = require('fs')
 
 describe('pliers-cli.js', function () {
 
