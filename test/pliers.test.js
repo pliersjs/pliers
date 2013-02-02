@@ -395,6 +395,27 @@ describe('pliers.js', function () {
         done()
       }, 1000)
     })
+
+    it('should not kill parent process if watch fn() errors', function (done) {
+      var pliers = getPliers()
+        , watchedFile = join(__dirname, 'fixtures', 'watched.txt')
+        , nonFn = 'I am not a function'
+
+      pliers.filesets('watched', join(__dirname, 'fixtures', '*.txt'))
+      pliers.watch(pliers.filesets.watched, function (fsWatcher) {
+        fsWatcher.close()
+        try {
+          nonFn()
+        } catch (e) {
+          e.message.should.equal('string is not a function')
+        }
+        done()
+      })
+
+      setTimeout(function () {
+        fs.utimes(watchedFile, new Date(), new Date())
+      }, 200)
+    })
   })
 
   describe('getAllTaskNames()', function () {

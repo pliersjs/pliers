@@ -77,21 +77,4 @@ describe('pliers-cli.js', function () {
       done()
     })
   })
-
-  it('should kill parent process if watch fn() errors', function (done) {
-    var flag
-      , child = exec('node ../../pliers-cli.js erroneousWatch', { cwd: fixturesPath }, function (error, stdout, stderr) {
-      stdout.should.match(/.*task.*/)
-      stderr.should.not.eql(null)
-      child.exitCode.should.equal(1)
-      true.should.equal(flag)
-      done()
-    })
-    setTimeout(function() {
-      flag = true
-      var watchedFile = join(__dirname, 'fixtures', 'watched.txt')
-      fs.utimes(watchedFile, new Date(), new Date())
-    }, 500)
-  })
-
 })
