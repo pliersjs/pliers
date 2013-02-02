@@ -261,6 +261,10 @@ describe('pliers.js', function () {
       })
       child.kill()
     })
+
+    it('should not require a callback', function () {
+      pliers.exec('ls')
+    })
   })
 
   describe('defaultTask()', function () {
