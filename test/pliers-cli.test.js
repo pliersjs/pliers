@@ -1,6 +1,7 @@
 var exec = require('child_process').exec
   , join = require('path').join
   , fixturesPath = join(__dirname, 'fixtures')
+  , fs = require('fs')
 
 describe('pliers-cli.js', function () {
 
@@ -16,7 +17,7 @@ describe('pliers-cli.js', function () {
 
   it('should error with unknown task', function (done) {
 
-    exec('node ../../pliers-cli.js error', { cwd: fixturesPath }, function (error, stdout, stderr) {
+    exec('node ../../pliers-cli.js unknown', { cwd: fixturesPath }, function (error, stdout, stderr) {
       error.code.should.equal(1)
       stderr.should.match(/.*No task exists.*/)
       done()
@@ -67,6 +68,30 @@ describe('pliers-cli.js', function () {
       error.code.should.equal(1)
       done()
     })
+  })
+
+  it('should kill parent process if task errors returns with a error code', function (done) {
+    var child = exec('node ../../pliers-cli.js error', { cwd: fixturesPath }, function (error, stdout, stderr) {
+      stderr.should.not.eql(null)
+      child.exitCode.should.equal(1)
+      done()
+    })
+  })
+
+  it('should kill parent process if watch fn() errors', function (done) {
+    var flag
+      , child = exec('node ../../pliers-cli.js erroneousWatch', { cwd: fixturesPath }, function (error, stdout, stderr) {
+      stdout.should.match(/.*task.*/)
+      stderr.should.not.eql(null)
+      child.exitCode.should.equal(1)
+      true.should.equal(flag)
+      done()
+    })
+    setTimeout(function() {
+      flag = true
+      var watchedFile = join(__dirname, 'fixtures', 'watched.txt')
+      fs.utimes(watchedFile, new Date(), new Date())
+    }, 500)
   })
 
 })

@@ -9,4 +9,18 @@ function tasks(pliers) {
     done()
   })
 
+  pliers('error', function (done) {
+    pliers.logger.info('There will be an error')
+    var fn
+    fn()
+    done()
+  })
+
+  pliers('erroneousWatch', function (done) {
+    pliers.watch(['watched.txt'], function() {
+      var fn
+      fn()
+      done()
+    })
+  })
 }
