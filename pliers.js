@@ -1,6 +1,6 @@
   module.exports = function (pliers) {
 
-  pliers.filesets('js', ['*.js', 'test/*.js'])
+  pliers.filesets('js', ['*.js', 'lib/*.js', 'test/*.js'])
 
   pliers('test', function (done) {
     pliers.exec('./node_modules/.bin/mocha -r should -R spec', done)
@@ -13,9 +13,9 @@
   pliers('qa', 'test', 'lint')
 
   pliers('watch', function() {
-    pliers.watch(
-      pliers.filesets.js,
-      pliers.tasks.lint)
+    pliers.watch(pliers.filesets.js, function() {
+      pliers.run('lint')
+    })
   })
 
   //pliers.default('test')
