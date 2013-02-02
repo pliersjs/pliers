@@ -267,9 +267,6 @@ describe('pliers.js', function () {
     })
   })
 
-  describe('defaultTask()', function () {
-  })
-
   describe('filesets()', function () {
     var pliers = getPliers()
 
@@ -376,6 +373,28 @@ describe('pliers.js', function () {
 
     })
 
+
+    it('should only run a task once every 2000 seconds', function (done) {
+
+      var pliers = getPliers()
+        , watchedFile = join(__dirname, 'fixtures', 'watched.txt')
+        , count = 0
+
+      pliers.filesets('watched', join(__dirname, 'fixtures', '*.txt'))
+      pliers.watch(pliers.filesets.watched, function (fsWatcher) {
+        fsWatcher.close()
+        count++
+      })
+
+      setTimeout(function () {
+        fs.utimes(watchedFile, new Date(), new Date())
+      }, 200)
+
+      setTimeout(function () {
+        count.should.equal(1)
+        done()
+      }, 1000)
+    })
   })
 
   describe('getAllTaskNames()', function () {
