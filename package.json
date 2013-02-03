@@ -1,12 +1,12 @@
 {
   "author": "Paul Serby <paul@serby.net>",
   "name": "pliers",
-  "description": "A build tool",
+  "description": "A buildy, watchy type tool",
   "version": "0.1.2",
   "tags": [
     "build tool",
     "make",
-    "compact"
+    "watch"
   ],
   "bin": {
     "pliers": "./pliers-cli.js"
