@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var program = require('commander')
-  , join = require('path').join
+  , path = require('path')
   , tasks
   , pliers = require('./lib/pliers')
 
@@ -27,7 +27,7 @@ if (!program.tasks) {
 pliers = pliers({ logLevel: program.logLevel })
 
 try {
-  tasks = require(join(process.cwd(), program.tasks))
+  tasks = require(path.resolve(program.tasks))
 } catch (e) {
 
   // Detect if the error caught is the task file
