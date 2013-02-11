@@ -227,6 +227,22 @@ describe('pliers.js', function () {
         }
 
       })
+
+      it('should stop if callback returns a value', function (done) {
+        var pliers = getPliers()
+
+        function task(id, cb) {
+          cb(id)
+        }
+
+        pliers('a', task.bind(null, 'a'))
+        pliers('b', task.bind(null, 'b'))
+        pliers('test', 'a', 'b')
+        pliers.run('test', function (err) {
+          assert.deepEqual(err, 'a')
+          done()
+        })
+      })
     })
   })
 
