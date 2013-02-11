@@ -1,4 +1,4 @@
-  module.exports = function (pliers) {
+module.exports = function (pliers) {
 
   pliers.filesets('js', ['*.js', 'lib/*.js', 'test/*.js'])
 
@@ -12,8 +12,8 @@
 
   pliers('qa', 'test', 'lint')
 
-  pliers('watch', function() {
-    pliers.watch(pliers.filesets.js, function() {
+  pliers('watch', function () {
+    pliers.watch(pliers.filesets.js, function () {
       pliers.run('lint')
     })
   })

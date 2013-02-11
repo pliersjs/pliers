@@ -74,4 +74,5 @@ if (taskName === undefined) {
 if (program.all) {
   pliers.runAll(taskName)
 } else {
-pliers.run(taskName)}
+  pliers.run(taskName)
+}
