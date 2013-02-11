@@ -70,9 +70,15 @@ if (taskName === undefined) {
     return process.exit(3)
   }
 }
-
+var fn
 if (program.all) {
-  pliers.runAll(taskName)
+  fn = pliers.runAll.bind(null, taskName)
 } else {
-  pliers.run(taskName)
+  fn = pliers.run.bind(null, taskName)
 }
+
+fn(function (error) {
+  if (error) {
+    console.error(error)
+  }
+})
