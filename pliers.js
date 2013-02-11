@@ -7,7 +7,7 @@ module.exports = function (pliers) {
   })
 
   pliers('lint', { description: 'Run jshint all on project JavaScript' }, function (done) {
-    pliers.exec('jshint lib test', done)
+    pliers.exec('jshint lib test pliers*.js', done)
   })
 
   pliers('qa', 'test', 'lint')
