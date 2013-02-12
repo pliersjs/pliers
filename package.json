@@ -2,7 +2,7 @@
   "author": "Paul Serby <paul@serby.net>",
   "name": "pliers",
   "description": "A buildy, watchy type tool",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "tags": [
     "build tool",
     "make",
@@ -28,7 +28,9 @@
     "async": "*",
     "glob": "~3.1",
     "colors": "~0.6",
-    "commander": "~1.1"
+    "commander": "~1.1",
+    "rimraf": "~2.1.4",
+    "mkdirp": "~0.3.4"
   },
   "devDependencies": {
     "mocha": "*",
