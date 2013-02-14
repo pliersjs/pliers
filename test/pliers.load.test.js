@@ -90,7 +90,7 @@ describe('pliers.js', function () {
       subPliers = pliers.load(join(__dirname, 'fixtures/load/a'))
       subPliers.callOrder = callOrder
 
-      subPliers = pliers.runAll('b', function () {
+      pliers.runAll('b', function () {
         subPliers.callOrder.should.eql([2, 1])
         done()
       })
