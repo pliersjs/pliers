@@ -228,8 +228,17 @@ describe('pliers.js', function () {
 
       })
 
-      it('should stop if callback returns a value', function (done) {
+      it('should exit(1) if tasks returns a value and no callback is provided', function (done) {
+
         var pliers = getPliers()
+          , originalExit = process.exit
+
+        // Mock process
+        process.exit = function (code) {
+          code.should.equal(1)
+          process.exit = originalExit
+          done()
+        }
 
         function task(id, cb) {
           cb(id)
@@ -238,11 +247,23 @@ describe('pliers.js', function () {
         pliers('a', task.bind(null, 'a'))
         pliers('b', task.bind(null, 'b'))
         pliers('test', 'a', 'b')
-        pliers.run('test', function (err) {
-          assert.deepEqual(err, 'a')
+        pliers.run('test')
+      })
+
+      it('should receive error if callback is provided', function (done) {
+        var pliers = getPliers()
+
+        function task(id, cb) {
+          cb(new Error('This is an error'))
+        }
+
+        pliers('a', task.bind(null, 'a'))
+        pliers.run('a', function (error) {
+          error.message.should.equal('This is an error')
           done()
         })
       })
+
     })
   })
 
@@ -280,6 +301,13 @@ describe('pliers.js', function () {
 
     it('should not require a callback', function () {
       pliers.exec('ls')
+    })
+
+    it('should error on exec returning an non-zero exit by default', function (done) {
+      pliers.exec('exit 1', function (error) {
+        error.message.should.equal('exec(\'exit 1\') returned with with code 127')
+        done()
+      })
     })
   })
 
