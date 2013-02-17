@@ -139,6 +139,28 @@ describe('pliers.js', function () {
         pliers.run('test')
       })
 
+      it('should report when tasks starts and finishes', function (done) {
+        var logOutput = []
+        function log() {
+          logOutput = logOutput.concat(Array.prototype.slice.apply(arguments))
+        }
+        var pliers = require('..')(
+          { logger:
+            { debug: log
+            , info: log
+            , warn: log
+            , error: log }
+          , output: nullStream
+          })
+        pliers('test', function (cb) {
+          cb()
+        })
+        pliers.run('test', function () {
+          logOutput.should.eql(['Running task: test', 'Completed task: test'])
+          done()
+        })
+      })
+
       it('should run task then callback if provided', function (done) {
         var pliers = getPliers()
           , run = false
