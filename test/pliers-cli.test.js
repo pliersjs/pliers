@@ -17,7 +17,7 @@ describe('pliers-cli.js', function () {
   it('should error with unknown task', function (done) {
 
     exec('node ../../pliers-cli.js unknown', { cwd: fixturesPath }, function (error, stdout, stderr) {
-      error.code.should.equal(1)
+      error.code.should.equal(8)
       stderr.should.match(/.*No task exists.*/)
       done()
     })
@@ -64,7 +64,7 @@ describe('pliers-cli.js', function () {
     exec('node ../../pliers-cli.js -t error.js', { cwd: fixturesPath }, function (error, stdout, stderr) {
       stdout.should.not.match(/Could not load `error.js`\n/)
       stderr.should.match(/uh oh\n/)
-      error.code.should.equal(1)
+      error.code.should.equal(8)
       done()
     })
   })
@@ -72,7 +72,7 @@ describe('pliers-cli.js', function () {
   it('should kill parent process if task errors returns with a error code', function (done) {
     var child = exec('node ../../pliers-cli.js error', { cwd: fixturesPath }, function (error, stdout, stderr) {
       stderr.should.not.eql(null)
-      child.exitCode.should.equal(1)
+      child.exitCode.should.equal(8)
       done()
     })
   })
