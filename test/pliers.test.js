@@ -327,7 +327,7 @@ describe('pliers.js', function () {
 
     it('should error on exec returning an non-zero exit by default', function (done) {
       pliers.exec('ls NO', function (error) {
-        error.message.should.equal('exec(\'ls NO\') returned with with code 2')
+        error.message.should.equal('exec(\'ls NO\') returned with with code 1')
         done()
       })
     })
