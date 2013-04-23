@@ -315,7 +315,7 @@ describe('pliers.js', function () {
     })
 
     it('should be able to kill processes', function (done) {
-      var child = pliers.exec('node', function () {
+      var child = pliers.exec('node', false, function () {
         done()
       })
       child.kill()
@@ -326,8 +326,17 @@ describe('pliers.js', function () {
     })
 
     it('should error on exec returning an non-zero exit by default', function (done) {
-      pliers.exec('ls NO', function (error) {
+      pliers.exec('ls NO', false, function (error) {
         error.message.should.equal('exec(\'ls NO\') returned with with code 1')
+        done()
+      })
+    })
+
+    it('should halt on error', function (done) {
+
+      exec('node test/fixtures/exec-failure', function (err, stdout, stderr) {
+        stderr.should.equal('ls: NO: No such file or directory\n')
+        err.code.should.be.above(0)
         done()
       })
     })
