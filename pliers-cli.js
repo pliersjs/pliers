@@ -24,8 +24,6 @@ if (!program.tasks) {
   program.tasks = 'pliers.js'
 }
 
-pliers = pliers({ logLevel: program.logLevel })
-
 try {
   tasks = require(path.resolve(program.tasks))
 } catch (e) {
@@ -43,6 +41,10 @@ try {
   }
 
 }
+
+tasks.options = tasks.options || { logLevel: program.logLevel }
+
+pliers = pliers(tasks.options)
 
 tasks(pliers)
 
