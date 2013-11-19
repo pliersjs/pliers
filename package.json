@@ -33,7 +33,7 @@
     "logga": ">=0.0.2"
   },
   "devDependencies": {
-    "mocha": "*",
-    "should": "*"
+    "mocha": "1",
+    "should": "2"
   }
 }
