@@ -80,5 +80,6 @@ if (program.all) {
 fn(function (error) {
   if (error) {
     console.error(error)
+    process.exit(1)
   }
 })
