@@ -17,8 +17,11 @@
   },
   "main": "lib/pliers.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha -r should",
-    "prepublish": "node ./pliers-cli.js qa && npm prune"
+    "lint": "./node_modules/.bin/jshint . --reporter=./node_modules/jshint-full-path/index.js",
+    "pretest": "npm run-script lint",
+    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -R spec -r should",
+    "posttest": "./node_modules/.bin/istanbul check-coverage && rm -rf coverage",
+    "prepublish": "npm test && npm prune"
   },
   "engines": {
     "node": ">=0.8"
@@ -34,6 +37,9 @@
   },
   "devDependencies": {
     "mocha": "1",
-    "should": "2"
+    "should": "2",
+    "istanbul": "~0.1.45",
+    "jshint-full-path": "~0.1.0",
+    "jshint": "~2.3.0"
   }
 }
