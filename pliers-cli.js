@@ -13,11 +13,12 @@ program
         , 'List all available tasks with descriptions')
   .option('-b, --bare'
         , 'List task names only')
+  .option('-d, --duration'
+        , 'Report timing information for each task')
   .option('-a, --all'
         , 'Run all named tasks with in the current tree')
   .option('-L, --logLevel [trace|debug|info|warn|error|fatal]'
         , 'Set the level of logs to output')
-  //.option('-j, --json', 'JSON logging')
   .parse(process.argv)
 
 if (!program.tasks) {
@@ -43,6 +44,11 @@ try {
 }
 
 tasks.options = tasks.options || { logLevel: program.logLevel }
+
+// Show the duration of each task
+if (program.duration) {
+  tasks.options.duration = true
+}
 
 pliers = pliers(tasks.options)
 
