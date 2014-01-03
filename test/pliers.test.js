@@ -286,6 +286,27 @@ describe('pliers.js', function () {
         })
       })
 
+      it('should run tasks in array using async', function (done) {
+        var run = []
+          , pliers = getPliers()
+
+        function task(id, tm, cb) {
+          setTimeout(function () {
+              run.push(id)
+              cb()
+            }, tm)
+        }
+
+        pliers('a', task.bind(null, 'a', 50))
+        pliers('b', task.bind(null, 'b', 10))
+        pliers('c', task.bind(null, 'c', 14))
+        pliers('test', ['c', 'b', 'a'])
+        pliers.run('test', function () {
+          assert.deepEqual(run, ['b', 'c', 'a'])
+          done()
+        })
+      })
+
     })
   })
 
