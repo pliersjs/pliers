@@ -156,7 +156,7 @@ describe('pliers.js', function () {
           cb()
         })
         pliers.run('test', function () {
-          logOutput.should.eql(['Running task: test', 'Completed task: [0ms] test'])
+          logOutput.should.eql(['Running task: test', 'Completed task: test'])
           done()
         })
       })

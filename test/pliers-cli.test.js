@@ -76,4 +76,14 @@ describe('pliers-cli.js', function () {
       done()
     })
   })
+
+  it('should support task duration option -d', function (done) {
+    exec('node ../../pliers-cli.js -d -t tasks.js greet', { cwd: fixturesPath }, function (error, stdout, stderr) {
+      stderr.should.equal('')
+      stdout.should.match(/Running task: greet/)
+      stdout.should.match(/hello from tasks\.js/)
+      stdout.should.match(/ms/)
+      done()
+    })
+  })
 })
