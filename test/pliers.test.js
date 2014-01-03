@@ -327,7 +327,7 @@ describe('pliers.js', function () {
 
     it('should error on exec returning an non-zero exit by default', function (done) {
       pliers.exec('ls NO', false, function (error) {
-        error.message.should.equal('exec(\'ls NO\') returned with with code 1')
+        error.message.should.contain('returned with with code')
         done()
       })
     })
@@ -335,7 +335,7 @@ describe('pliers.js', function () {
     it('should halt on error', function (done) {
 
       exec('node test/fixtures/exec-failure', function (err, stdout, stderr) {
-        stderr.should.equal('ls: NO: No such file or directory\n')
+        stderr.should.contain('No such file or directory')
         err.code.should.be.above(0)
         done()
       })
