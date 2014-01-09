@@ -440,6 +440,7 @@ describe('pliers.js', function () {
         , watchedFile = join(__dirname, 'fixtures', 'watched.txt')
 
       pliers.filesets('watched', join(__dirname, 'fixtures', '*.txt'))
+
       pliers.watch(pliers.filesets.watched, function (fsWatcher, filename) {
         filename.should.equal(watchedFile)
         fsWatcher.close()
@@ -466,6 +467,30 @@ describe('pliers.js', function () {
       setTimeout(function () {
         fs.utimes(watchedFile, new Date(), new Date())
       }, 200)
+
+    })
+
+    it('should respond to multiple watches', function (done) {
+
+      var pliers = getPliers()
+        , count = 0
+        , watchedFile = join(__dirname, 'fixtures', 'watched.txt')
+
+      pliers.filesets('watched', join(__dirname, 'fixtures', '*.txt'))
+
+      pliers.watch(pliers.filesets.watched, function (fsWatcher) {
+        count += 1
+        fsWatcher.close()
+
+        if (count === 10) {
+          clearInterval(interval)
+          done()
+        }
+      })
+
+      var interval = setInterval(function () {
+        fs.utimes(watchedFile, new Date(), new Date())
+      }, 20)
 
     })
 
