@@ -8,6 +8,9 @@
     "make",
     "watch"
   ],
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
   "bin": {
     "pliers": "./pliers-cli.js"
   },
