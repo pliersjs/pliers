@@ -40,6 +40,21 @@ describe('pliers.js', function () {
       pliers.filesets.txt.should.eql(['watched.txt'])
 
     })
+
+    it('should have a cwd attached to pliers', function () {
+      var pliers = require('..')(
+        { logger:
+          { debug: noop
+          , info: noop
+          , warn: noop
+          , error: noop }
+        , cwd: join(__dirname, 'fixtures')
+        , output: nullStream
+        })
+
+      pliers.cwd.should.equal(join(__dirname, 'fixtures'))
+
+    })
   })
 
   describe('pliers()', function () {
