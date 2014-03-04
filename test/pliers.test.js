@@ -351,7 +351,7 @@ describe('pliers.js', function () {
     })
 
     it('should be able to kill processes', function (done) {
-      var child = pliers.exec('node', false, function () {
+      var child = pliers.exec('node', { haltOnFailure: false }, function () {
         done()
       })
       child.kill()
@@ -362,14 +362,15 @@ describe('pliers.js', function () {
     })
 
     it('should allow setting of the cwd', function (done) {
-      pliers.exec('ls ', { cwd: __dirname + '/fixtures' }, function (error, stdout) {
-        stdout.should.contain('exec.js')
+      pliers.exec('ls error.js',
+        { haltOnFailure: false, cwd: __dirname + '/fixtures' }, function (error) {
+        true.should.equal(error === undefined)
         done()
       })
     })
 
     it('should error on exec returning an non-zero exit by default', function (done) {
-      pliers.exec('ls NO', { haltOnError: false }, function (error) {
+      pliers.exec('ls NO', { haltOnFailure: false }, function (error) {
         error.message.should.contain('returned with with code')
         done()
       })
