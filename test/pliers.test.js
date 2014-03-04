@@ -361,8 +361,15 @@ describe('pliers.js', function () {
       pliers.exec('ls')
     })
 
+    it('should allow setting of the cwd', function (done) {
+      pliers.exec('ls ', { cwd: __dirname + '/fixtures' }, function (error, stdout) {
+        stdout.should.contain('exec.js')
+        done()
+      })
+    })
+
     it('should error on exec returning an non-zero exit by default', function (done) {
-      pliers.exec('ls NO', false, function (error) {
+      pliers.exec('ls NO', { haltOnError: false }, function (error) {
         error.message.should.contain('returned with with code')
         done()
       })
