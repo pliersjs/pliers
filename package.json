@@ -36,7 +36,8 @@
     "commander": "~1.1",
     "rimraf": "2.1",
     "mkdirp": "0.3",
-    "logga": ">=0.0.2"
+    "logga": ">=0.0.2",
+    "chokidar": "^0.8.2"
   },
   "devDependencies": {
     "mocha": "1",
