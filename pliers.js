@@ -1,6 +1,6 @@
 module.exports = function (pliers) {
 
-  pliers.filesets('js', ['*.js', 'lib/*.js', 'test/*.js'])
+  pliers.filesets('js', [ '*.js', 'lib/*.js', 'test/*.js' ])
 
   pliers('test', function (done) {
     pliers.exec('./node_modules/.bin/mocha -r should -R spec', done)

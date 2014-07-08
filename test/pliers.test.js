@@ -37,7 +37,7 @@ describe('pliers.js', function () {
         })
 
       pliers.filesets('txt', '*.txt')
-      pliers.filesets.txt.should.eql(['watched.txt'])
+      pliers.filesets.txt.should.eql([ 'watched.txt' ])
 
     })
 
@@ -171,7 +171,7 @@ describe('pliers.js', function () {
           cb()
         })
         pliers.run('test', function () {
-          logOutput.should.eql(['Running task: test', 'Completed task: test'])
+          logOutput.should.eql([ 'Running task: test', 'Completed task: test' ])
           done()
         })
       })
@@ -230,7 +230,7 @@ describe('pliers.js', function () {
         pliers('c', task.bind(null, 'c'))
         pliers('test', 'c', 'b', 'a')
         pliers.run('test', function () {
-          assert.deepEqual(run, ['c', 'b', 'a'])
+          assert.deepEqual(run, [ 'c', 'b', 'a' ])
           done()
         })
       })
@@ -249,7 +249,7 @@ describe('pliers.js', function () {
         pliers('c', 'a', task.bind(null, 'c'))
         pliers('test', 'c', 'b', 'a')
         pliers.run('test', function () {
-          assert.deepEqual(run, ['a', 'c', 'b'])
+          assert.deepEqual(run, [ 'a', 'c', 'b' ])
           done()
         })
       })
@@ -315,9 +315,9 @@ describe('pliers.js', function () {
         pliers('a', task.bind(null, 'a', 50))
         pliers('b', task.bind(null, 'b', 10))
         pliers('c', task.bind(null, 'c', 14))
-        pliers('test', ['c', 'b', 'a'])
+        pliers('test', [ 'c', 'b', 'a' ])
         pliers.run('test', function () {
-          assert.deepEqual(run, ['b', 'c', 'a'])
+          assert.deepEqual(run, [ 'b', 'c', 'a' ])
           done()
         })
       })
@@ -362,16 +362,16 @@ describe('pliers.js', function () {
     })
 
     it('should allow setting of the cwd', function (done) {
-      pliers.exec('ls error.js',
-        { haltOnFailure: false, cwd: __dirname + '/fixtures' }, function (error) {
-        true.should.equal(error === undefined)
-        done()
-      })
+      pliers.exec('ls error.js'
+        , { haltOnFailure: false, cwd: __dirname + '/fixtures' }, function (error) {
+          true.should.equal(error === undefined)
+          done()
+        })
     })
 
     it('should error on exec returning an non-zero exit by default', function (done) {
       pliers.exec('ls NO', { haltOnFailure: false }, function (error) {
-        error.message.should.contain('returned with with code')
+        error.message.should.containEql('returned with with code')
         done()
       })
     })
@@ -379,7 +379,7 @@ describe('pliers.js', function () {
     it('should halt on error', function (done) {
 
       exec('node test/fixtures/exec-failure', function (err, stdout, stderr) {
-        stderr.should.contain('No such file or directory')
+        stderr.should.containEql('No such file or directory')
         err.code.should.be.above(0)
         done()
       })
@@ -409,25 +409,25 @@ describe('pliers.js', function () {
       it('should return an array of matching files', function () {
         pliers.filesets('js', __dirname + '/../*.js')
 
-        assert.deepEqual(pliers.filesets.js,
-          [ 'pliers-cli.js'
-          , 'pliers.js'].map(function (value) {
-            return join(__dirname, '..', value)
-          }))
+        assert.deepEqual(pliers.filesets.js
+          , [ 'pliers-cli.js'
+            , 'pliers.js'
+            ].map(function (value) {
+              return join(__dirname, '..', value)
+            }))
       })
 
-      it('should return an array of matching files from an array of patterns',
-        function () {
+      it('should return an array of matching files from an array of patterns', function () {
 
-        pliers.filesets('allJs', [__dirname + '/../*.js', __dirname + '/*.js'])
+        pliers.filesets('allJs', [ __dirname + '/../*.js', __dirname + '/*.js' ])
         pliers.filesets.allJs.should.eql(
           [ 'pliers-cli.js'
-          , 'pliers.js'].map(function (value) {
+          , 'pliers.js' ].map(function (value) {
             return join(__dirname, '..', value)
           }).concat(
             [ 'pliers-cli.test.js'
             , 'pliers.load.test.js'
-            , 'pliers.test.js'].map(function (value) {
+            , 'pliers.test.js' ].map(function (value) {
               return join(__dirname, '../test/', value)
             })
           ))
@@ -438,18 +438,17 @@ describe('pliers.js', function () {
         assert.deepEqual(pliers.filesets.everything, pliers.filesets.everything)
       })
 
-
       it('should allow a 3rd parameter to define exclude patterns', function () {
         pliers.filesets('nothing', __dirname + '**', __dirname + '**')
         assert.deepEqual(pliers.filesets.nothing, [])
       })
 
       it('should allow exclude patterns to be an array', function () {
-        pliers.filesets('excludeArray', __dirname + '/*.js',
-          [__dirname + '/*.load.test.js', __dirname + '/*-cli.test.js'])
+        pliers.filesets('excludeArray', __dirname + '/*.js'
+          , [ __dirname + '/*.load.test.js', __dirname + '/*-cli.test.js' ])
 
-        assert.deepEqual(pliers.filesets.excludeArray,
-          [join(__dirname, '../test/', 'pliers.test.js')])
+        assert.deepEqual(pliers.filesets.excludeArray
+          , [ join(__dirname, '../test/', 'pliers.test.js') ])
       })
 
     })
@@ -516,7 +515,6 @@ describe('pliers.js', function () {
 
     })
 
-
     it('should only run a task once every 2000 seconds', function (done) {
 
       var pliers = getPliers()
@@ -568,11 +566,11 @@ describe('pliers.js', function () {
       pliers('a', function (done) {
         done()
       })
-      pliers.getAllTaskNames().should.eql(['a'])
+      pliers.getAllTaskNames().should.eql([ 'a' ])
       pliers('b', function (done) {
         done()
       })
-      pliers.getAllTaskNames().should.eql(['a', 'b'])
+      pliers.getAllTaskNames().should.eql([ 'a', 'b' ])
     })
   })
 
@@ -583,11 +581,11 @@ describe('pliers.js', function () {
       pliers('a', function (done) {
         done()
       })
-      pliers.getAllTaskNames().should.eql(['a'])
+      pliers.getAllTaskNames().should.eql([ 'a' ])
       pliers('b', function (done) {
         done()
       })
-      pliers.getAllTaskNames().should.eql(['a', 'b'])
+      pliers.getAllTaskNames().should.eql([ 'a', 'b' ])
     })
   })
 })
