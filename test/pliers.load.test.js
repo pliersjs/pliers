@@ -1,36 +1,18 @@
-var noop = function () {}
-  , join = require('path').join
-  , Stream = require('stream')
+var join = require('path').join
   , should = require('should')
+  , getPliers = require('./fixtures/get-pliers')
 
 describe('pliers.js', function () {
-
-  function getPliers() {
-
-    var writable = new Stream()
-    writable.write = noop
-    writable.end = noop
-
-    return require('..')(
-      { logger:
-        { debug: noop
-        , info: noop
-        , warn: noop
-        , error: noop }
-      , output: writable
-      , cwd: join(__dirname, 'fixtures/load')
-      })
-  }
 
   describe('load()', function () {
 
     it('should load valid sub pliers', function () {
-      var pliers = getPliers()
+      var pliers = getPliers({ cwd: join(__dirname, 'fixtures/load') })
       pliers.load(join(__dirname, 'fixtures/load/a'))
     })
 
     it('should throw if no sub pliers is found', function (done) {
-      var pliers = getPliers()
+      var pliers = getPliers({ cwd: join(__dirname, 'fixtures/load') })
 
       try {
         pliers.load(join(__dirname, 'fail'))
@@ -43,7 +25,7 @@ describe('pliers.js', function () {
 
   describe('run()', function () {
     it('should run root level tasks', function (done) {
-      var pliers = getPliers()
+      var pliers = getPliers({ cwd: join(__dirname, 'fixtures/load') })
 
       pliers('test', function (cb) {
         cb()
@@ -58,7 +40,7 @@ describe('pliers.js', function () {
     })
 
     it('should only run() tasks in the parent pliers', function () {
-      var pliers = getPliers()
+      var pliers = getPliers({ cwd: join(__dirname, 'fixtures/load') })
 
       pliers('test', function (cb) {
         cb()
@@ -78,7 +60,7 @@ describe('pliers.js', function () {
 
     it('should first run all sub tasks then parent task', function (done) {
 
-      var pliers = getPliers()
+      var pliers = getPliers({ cwd: join(__dirname, 'fixtures/load') })
         , subPliers
         , callOrder = []
 

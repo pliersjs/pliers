@@ -1,39 +1,17 @@
 var noop = function () {}
   , assert = require('assert')
   , join = require('path').join
-  , Stream = require('stream')
   , fs = require('fs')
-  , nullStream = new Stream()
   , exec = require('child_process').exec
-
-nullStream.write = noop
-nullStream.end = noop
+  , getPliers = require('./fixtures/get-pliers')
 
 describe('pliers.js', function () {
-
-  function getPliers(outputStream) {
-
-    return require('..')(
-      { logger:
-        { debug: noop
-        , info: noop
-        , warn: noop
-        , error: noop }
-      , output: outputStream ? undefined : nullStream
-      })
-  }
 
   describe('initialize', function () {
 
     it('should allow a custom cwd via options', function () {
-      var pliers = require('..')(
-        { logger:
-          { debug: noop
-          , info: noop
-          , warn: noop
-          , error: noop }
-        , cwd: join(__dirname, 'fixtures')
-        , output: nullStream
+      var pliers = getPliers(
+        { cwd: join(__dirname, 'fixtures')
         })
 
       pliers.filesets('txt', '*.txt')
@@ -42,14 +20,8 @@ describe('pliers.js', function () {
     })
 
     it('should have a cwd attached to pliers', function () {
-      var pliers = require('..')(
-        { logger:
-          { debug: noop
-          , info: noop
-          , warn: noop
-          , error: noop }
-        , cwd: join(__dirname, 'fixtures')
-        , output: nullStream
+      var pliers = getPliers(
+        { cwd: join(__dirname, 'fixtures')
         })
 
       pliers.cwd.should.equal(join(__dirname, 'fixtures'))
@@ -159,13 +131,12 @@ describe('pliers.js', function () {
         function log() {
           logOutput = logOutput.concat(Array.prototype.slice.apply(arguments))
         }
-        var pliers = require('..')(
+        var pliers = getPliers(
           { logger:
             { debug: log
             , info: log
             , warn: log
             , error: log }
-          , output: nullStream
           })
         pliers('test', function (cb) {
           cb()
@@ -327,7 +298,7 @@ describe('pliers.js', function () {
 
   describe('exec()', function () {
 
-    var pliers = getPliers(true)
+    var pliers = getPliers()
 
     it('should throw if no command provided', function () {
       (function () {
