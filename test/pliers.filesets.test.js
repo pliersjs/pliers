@@ -35,6 +35,29 @@ describe('pliers.js', function () {
             }))
       })
 
+      it('should not have dedups same include patterns is passed twice ', function () {
+        pliers.filesets('dup', [ __dirname + '/../*.js', __dirname + '/../*.js' ] )
+
+        assert.deepEqual(pliers.filesets.dup
+          , [ 'pliers-cli.js'
+            , 'pliers.js'
+            ].map(function (value) {
+              return join(__dirname, '..', value)
+            }))
+      })
+
+      it('should not have dedups if different patterns match the same file ', function () {
+        pliers.filesets('dupTwo', [ __dirname + '/../*.js', __dirname + '/../*.js*' ] )
+
+        assert.deepEqual(pliers.filesets.dupTwo
+          , [ 'package.json'
+            , 'pliers-cli.js'
+            , 'pliers.js'
+            ].map(function (value) {
+              return join(__dirname, '..', value)
+            }))
+      })
+
       it('should return an array of matching files from an array of patterns', function () {
 
         pliers.filesets('allJs', [ __dirname + '/../*.js', __dirname + '/*.js' ])
@@ -66,8 +89,7 @@ describe('pliers.js', function () {
         pliers.filesets('excludeArray', __dirname + '/*.js'
           , [ __dirname + '/*.load.test.js', __dirname + '/*-cli.test.js' ])
 
-        assert.deepEqual(pliers.filesets.excludeArray
-          , [ join(__dirname, '../test/', 'pliers.test.js') ])
+        assert.equal(pliers.filesets.excludeArray[1], join(__dirname, '../test/', 'pliers.test.js'))
       })
 
     })
