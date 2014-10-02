@@ -43,7 +43,12 @@ try {
 
 }
 
-tasks.options = tasks.options || { logLevel: program.logLevel }
+tasks.options = tasks.options || {}
+
+// Only pass through the log level if it was passed as a cli arg
+if (program.logLevel) {
+  tasks.options.logLevel = program.logLevel
+}
 
 // Show the duration of each task
 if (program.duration) {
