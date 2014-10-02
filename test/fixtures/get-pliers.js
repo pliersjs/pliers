@@ -14,7 +14,9 @@ function getPliers(options) {
       { debug: noop
       , info: noop
       , warn: noop
-      , error: noop }
+      , error: noop
+      , trace: noop
+      }
     , output: null
     }, options))
 }

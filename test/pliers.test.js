@@ -136,7 +136,9 @@ describe('pliers.js', function () {
             { debug: log
             , info: log
             , warn: log
-            , error: log }
+            , error: log
+            , trace: log
+            }
           })
         pliers('test', function (cb) {
           cb()
