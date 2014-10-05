@@ -359,76 +359,7 @@ describe('pliers.js', function () {
     })
   })
 
-  describe('filesets()', function () {
-    var pliers = getPliers()
-
-    it('should throw if identifier is missing', function () {
-      (function () {
-        pliers.filesets()
-      }).should.throwError('Fileset id must not be empty and only contain [a-Z]')
-    })
-
-    it('should throw if file pattern is missing', function () {
-      (function () {
-        pliers.filesets('js')
-      }).should.throwError('A file pattern is required to define a file set')
-    })
-
-    describe('filesets.{id}', function () {
-      it('should equal undefined if identifier is unknown', function () {
-        assert.strictEqual(pliers.filesets.js, undefined)
-      })
-
-      it('should return an array of matching files', function () {
-        pliers.filesets('js', __dirname + '/../*.js')
-
-        assert.deepEqual(pliers.filesets.js,
-          [ 'pliers-cli.js'
-          , 'pliers.js'].map(function (value) {
-            return join(__dirname, '..', value)
-          }))
-      })
-
-      it('should return an array of matching files from an array of patterns',
-        function () {
-
-        pliers.filesets('allJs', [__dirname + '/../*.js', __dirname + '/*.js'])
-        pliers.filesets.allJs.should.eql(
-          [ 'pliers-cli.js'
-          , 'pliers.js'].map(function (value) {
-            return join(__dirname, '..', value)
-          }).concat(
-            [ 'pliers-cli.test.js'
-            , 'pliers.load.test.js'
-            , 'pliers.test.js'].map(function (value) {
-              return join(__dirname, '../test/', value)
-            })
-          ))
-      })
-
-      it('should return the same thing on each access', function () {
-        pliers.filesets('everything', __dirname + '**')
-        assert.deepEqual(pliers.filesets.everything, pliers.filesets.everything)
-      })
-
-
-      it('should allow a 3rd parameter to define exclude patterns', function () {
-        pliers.filesets('nothing', __dirname + '**', __dirname + '**')
-        assert.deepEqual(pliers.filesets.nothing, [])
-      })
-
-      it('should allow exclude patterns to be an array', function () {
-        pliers.filesets('excludeArray', __dirname + '/*.js',
-          [__dirname + '/*.load.test.js', __dirname + '/*-cli.test.js'])
-
-        assert.deepEqual(pliers.filesets.excludeArray,
-          [join(__dirname, '../test/', 'pliers.test.js')])
-      })
-
-    })
-  })
-
-  describe.only('watch()', function () {
+  describe('watch()', function () {
 
     it('should call function and pass filename of changed file when a changes happens', function (done) {
 
@@ -462,12 +393,12 @@ describe('pliers.js', function () {
 
       setTimeout(function () {
         fs.utimes(watchedFile, new Date(), new Date())
-      }, 200)
+      }, 500)
 
     })
 
     it('should respond to multiple watches', function (done) {
-      this.timeout(2500)
+      this.timeout(5500)
       var pliers = getPliers()
         , count = 0
         , watchedFile = join(__dirname, 'fixtures', 'watched.txt')
@@ -485,12 +416,12 @@ describe('pliers.js', function () {
 
       var interval = setInterval(function () {
         fs.utimes(watchedFile, new Date(), new Date())
-      }, 100)
+      }, 500)
 
     })
 
     it('should only run a task once every 2000 seconds', function (done) {
-
+      this.timeout(5500)
       var pliers = getPliers()
         , watchedFile = join(__dirname, 'fixtures', 'watched.txt')
         , count = 0
@@ -501,14 +432,15 @@ describe('pliers.js', function () {
         count++
       })
 
-      setTimeout(function () {
+      var interval = setInterval(function () {
         fs.utimes(watchedFile, new Date(), new Date())
-      }, 200)
+      }, 500)
 
       setTimeout(function () {
         count.should.equal(1)
+        clearInterval(interval)
         done()
-      }, 1000)
+      }, 2000)
     })
 
     it('should not kill parent process if watch fn() errors', function (done) {
