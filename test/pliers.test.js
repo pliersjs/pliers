@@ -375,13 +375,13 @@ describe('pliers.js', function () {
       })
 
       setTimeout(function () {
-        fs.utimes(watchedFile, new Date(), new Date())
+        fs.utimesSync(watchedFile, new Date(), new Date())
       }, 200)
 
     })
 
     it('should run a task when a file in a fileset changes', function (done) {
-
+      this.timeout(4000)
       var pliers = getPliers()
         , watchedFile = join(__dirname, 'fixtures', 'watched.txt')
 
@@ -392,8 +392,8 @@ describe('pliers.js', function () {
       })
 
       setTimeout(function () {
-        fs.utimes(watchedFile, new Date(), new Date())
-      }, 500)
+        fs.utimesSync(watchedFile, new Date(), new Date())
+      }, 1000)
 
     })
 
@@ -405,17 +405,17 @@ describe('pliers.js', function () {
 
       pliers.filesets('watched', join(__dirname, 'fixtures', '*.txt'))
 
-      pliers.watch(pliers.filesets.watched, function () {
+      pliers.watch(pliers.filesets.watched, function (fsWatcher) {
         count += 1
-
         if (count === 2) {
           clearInterval(interval)
+          fsWatcher.close()
           done()
         }
       })
 
       var interval = setInterval(function () {
-        fs.utimes(watchedFile, new Date(), new Date())
+        fs.utimesSync(watchedFile, new Date(), new Date())
       }, 500)
 
     })
@@ -433,7 +433,7 @@ describe('pliers.js', function () {
       })
 
       var interval = setInterval(function () {
-        fs.utimes(watchedFile, new Date(), new Date())
+        fs.utimesSync(watchedFile, new Date(), new Date())
       }, 500)
 
       setTimeout(function () {
@@ -460,7 +460,7 @@ describe('pliers.js', function () {
       })
 
       setTimeout(function () {
-        fs.utimes(watchedFile, new Date(), new Date())
+        fs.utimesSync(watchedFile, new Date(), new Date())
       }, 200)
     })
   })
