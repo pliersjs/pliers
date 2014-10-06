@@ -77,10 +77,10 @@ if (program.list) {
 if (taskName === undefined) {
   if (pliers.hasDefault) {
     pliers.defaultTask()
-    return process.exit()
+    process.exit()
   } else {
     console.log('No default task')
-    return process.exit(3)
+    process.exit(3)
   }
 }
 var fn

@@ -1,6 +1,6 @@
 module.exports = function (pliers) {
 
-  pliers.filesets('js', ['*.js'])
+  pliers.filesets('js', [ '*.js' ])
 
   pliers('fixture', function () {
     pliers.logger.info('fixture a')

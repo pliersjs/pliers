@@ -17,7 +17,7 @@ function tasks(pliers) {
   })
 
   pliers('erroneousWatch', function (done) {
-    pliers.watch(['watched.txt'], function () {
+    pliers.watch([ 'watched.txt' ], function () {
       var fn
       fn()
       done()

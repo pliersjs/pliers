@@ -73,7 +73,7 @@ describe('pliers.js', function () {
       subPliers.callOrder = callOrder
 
       pliers.runAll('b', function () {
-        subPliers.callOrder.should.eql([2, 1])
+        subPliers.callOrder.should.eql([ 2, 1 ])
         done()
       })
     })
