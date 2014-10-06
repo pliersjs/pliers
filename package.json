@@ -2,7 +2,7 @@
   "author": "Paul Serby <paul@serby.net>",
   "name": "pliers",
   "description": "A buildy, watchy type tool",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "tags": [
     "build tool",
     "make",
@@ -37,7 +37,7 @@
     "logga": "^1.1.0",
     "mkdirp": "^0.5.0",
     "rimraf": "^2.2.8",
-	"chokidar": "*"
+    "chokidar": "*"
   },
   "devDependencies": {
     "istanbul": "^0.2.16",
