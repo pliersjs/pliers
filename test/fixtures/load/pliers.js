@@ -1,7 +1,7 @@
 module.exports = function (pliers) {
 
   pliers.load(__dirname + '/a')
-  pliers.filesets('js', ['*.js'])
+  pliers.filesets('js', [ '*.js' ])
 
   pliers('test', function () {
     pliers.logger.info('test task')

@@ -375,13 +375,13 @@ describe('pliers.js', function () {
       })
 
       setTimeout(function () {
-        fs.utimes(watchedFile, new Date(), new Date())
+        fs.utimesSync(watchedFile, new Date(), new Date())
       }, 200)
 
     })
 
     it('should run a task when a file in a fileset changes', function (done) {
-
+      this.timeout(4000)
       var pliers = getPliers()
         , watchedFile = join(__dirname, 'fixtures', 'watched.txt')
 
@@ -392,36 +392,36 @@ describe('pliers.js', function () {
       })
 
       setTimeout(function () {
-        fs.utimes(watchedFile, new Date(), new Date())
-      }, 200)
+        fs.utimesSync(watchedFile, new Date(), new Date())
+      }, 1000)
 
     })
 
     it('should respond to multiple watches', function (done) {
-      this.timeout(2500)
+      this.timeout(5500)
       var pliers = getPliers()
         , count = 0
         , watchedFile = join(__dirname, 'fixtures', 'watched.txt')
 
       pliers.filesets('watched', join(__dirname, 'fixtures', '*.txt'))
 
-      pliers.watch(pliers.filesets.watched, function () {
+      pliers.watch(pliers.filesets.watched, function (fsWatcher) {
         count += 1
-
         if (count === 2) {
           clearInterval(interval)
+          fsWatcher.close()
           done()
         }
       })
 
       var interval = setInterval(function () {
-        fs.utimes(watchedFile, new Date(), new Date())
-      }, 100)
+        fs.utimesSync(watchedFile, new Date(), new Date())
+      }, 500)
 
     })
 
     it('should only run a task once every 2000 seconds', function (done) {
-
+      this.timeout(5500)
       var pliers = getPliers()
         , watchedFile = join(__dirname, 'fixtures', 'watched.txt')
         , count = 0
@@ -432,14 +432,15 @@ describe('pliers.js', function () {
         count++
       })
 
-      setTimeout(function () {
-        fs.utimes(watchedFile, new Date(), new Date())
-      }, 200)
+      var interval = setInterval(function () {
+        fs.utimesSync(watchedFile, new Date(), new Date())
+      }, 500)
 
       setTimeout(function () {
         count.should.equal(1)
+        clearInterval(interval)
         done()
-      }, 1000)
+      }, 2000)
     })
 
     it('should not kill parent process if watch fn() errors', function (done) {
@@ -459,7 +460,7 @@ describe('pliers.js', function () {
       })
 
       setTimeout(function () {
-        fs.utimes(watchedFile, new Date(), new Date())
+        fs.utimesSync(watchedFile, new Date(), new Date())
       }, 200)
     })
   })

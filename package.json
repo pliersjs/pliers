@@ -2,7 +2,7 @@
   "author": "Paul Serby <paul@serby.net>",
   "name": "pliers",
   "description": "A buildy, watchy type tool",
-  "version": "1.0.2",
+  "version": "1.1.2",
   "tags": [
     "build tool",
     "make",
@@ -20,10 +20,11 @@
   },
   "main": "lib/pliers.js",
   "scripts": {
-    "lint": "./node_modules/.bin/jshint . --reporter=./node_modules/jshint-full-path/index.js",
-    "pretest": "npm run-script lint",
-    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -R spec -r should",
-    "posttest": "./node_modules/.bin/istanbul check-coverage && rm -rf coverage",
+    "lint": "jshint . --reporter=./node_modules/jshint-full-path/index.js",
+    "checkStyle": "jscs .",
+    "pretest": "npm run lint && npm run checkStyle",
+    "test": "istanbul cover ./node_modules/.bin/_mocha -- -R spec -r should",
+    "posttest": "istanbul check-coverage && rm -rf coverage",
     "prepublish": "npm test && npm prune"
   },
   "engines": {
@@ -31,8 +32,9 @@
   },
   "dependencies": {
     "async": "^0.9.0",
-    "commander": "^2.2.0",
-    "glob": "^4.0.3",
+    "chokidar": "^0.9.0",
+    "commander": "^2.3.0",
+    "glob": "^4.0.6",
     "lodash": "^2.4.1",
     "logga": "^1.1.0",
     "mkdirp": "^0.5.0",
@@ -40,6 +42,7 @@
   },
   "devDependencies": {
     "istanbul": "^0.2.16",
+    "jscs": "^1.6.2",
     "jshint": "^2.5.2",
     "jshint-full-path": "^1.1.1",
     "mocha": "^1.20.1",
