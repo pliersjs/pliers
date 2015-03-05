@@ -1,6 +1,6 @@
 # pliers - A buildy, watchy type tool
 
-[![build status](https://secure.travis-ci.org/serby/pliers.png)](http://travis-ci.org/serby/pliers)
+[![build status](https://secure.travis-ci.org/pliersjs/pliers.png)](http://travis-ci.org/pliersjs/pliers)
 
 ## Installation
 
