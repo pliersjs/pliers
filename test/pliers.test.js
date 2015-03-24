@@ -126,29 +126,6 @@ describe('pliers.js', function () {
         pliers.run('test')
       })
 
-      it('should report when tasks starts and finishes', function (done) {
-        var logOutput = []
-        function log() {
-          logOutput = logOutput.concat(Array.prototype.slice.apply(arguments))
-        }
-        var pliers = getPliers(
-          { logger:
-            { debug: log
-            , info: log
-            , warn: log
-            , error: log
-            , trace: log
-            }
-          })
-        pliers('test', function (cb) {
-          cb()
-        })
-        pliers.run('test', function () {
-          logOutput.should.eql([ 'Running task: test', 'Completed task: test' ])
-          done()
-        })
-      })
-
       it('should run task then callback if provided', function (done) {
         var pliers = getPliers()
           , run = false
@@ -317,7 +294,7 @@ describe('pliers.js', function () {
 
     it('should inherit the parent process\' stdio', function (done) {
       exec('node test/fixtures/exec', function (err, stdout, stderr) {
-        stdout.trim().substring(1).should.equal(process.versions.node)
+        stdout.trim().substring(1).should.match(new RegExp(process.versions.node))
         stderr.should.equal('')
         done()
       })

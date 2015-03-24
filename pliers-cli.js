@@ -13,8 +13,6 @@ program
         , 'List all available tasks with descriptions')
   .option('-b, --bare'
         , 'List task names only')
-  .option('-d, --duration'
-        , 'Report timing information for each task')
   .option('-a, --all'
         , 'Run all named tasks with in the current tree')
   .option('-L, --logLevel [trace|debug|info|warn|error|fatal]'
@@ -48,11 +46,6 @@ tasks.options = tasks.options || {}
 // Only pass through the log level if it was passed as a cli arg
 if (program.logLevel) {
   tasks.options.logLevel = program.logLevel
-}
-
-// Show the duration of each task
-if (program.duration) {
-  tasks.options.duration = true
 }
 
 pliers = pliers(tasks.options)

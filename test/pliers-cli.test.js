@@ -28,7 +28,7 @@ describe('pliers-cli.js', function () {
 
     exec('node ../../pliers-cli.js greet', { cwd: fixturesPath }, function (error, stdout, stderr) {
       stderr.should.equal('')
-      stdout.should.match(/Running task: greet/)
+      stdout.should.match(/greet.*Started/)
       done()
     })
 
@@ -37,7 +37,7 @@ describe('pliers-cli.js', function () {
   it('should load tasks from a pliers.js in the cwd', function (done) {
     exec('node ../../pliers-cli.js greet', { cwd: fixturesPath }, function (error, stdout, stderr) {
       stderr.should.equal('')
-      stdout.should.match(/Running task: greet/)
+      stdout.should.match(/greet.*Started/)
       stdout.should.match(/hello from pliers\.js/)
       done()
     })
@@ -46,7 +46,7 @@ describe('pliers-cli.js', function () {
   it('should load tasks from a custom path', function (done) {
     exec('node ../../pliers-cli.js -t tasks.js greet', { cwd: fixturesPath }, function (error, stdout, stderr) {
       stderr.should.equal('')
-      stdout.should.match(/Running task: greet/)
+      stdout.should.match(/greet.*Started/)
       stdout.should.match(/hello from tasks\.js/)
       done()
     })
@@ -77,13 +77,4 @@ describe('pliers-cli.js', function () {
     })
   })
 
-  it('should support task duration option -d', function (done) {
-    exec('node ../../pliers-cli.js -d -t tasks.js greet', { cwd: fixturesPath }, function (error, stdout, stderr) {
-      stderr.should.equal('')
-      stdout.should.match(/Running task: greet/)
-      stdout.should.match(/hello from tasks\.js/)
-      stdout.should.match(/ms/)
-      done()
-    })
-  })
 })
